@@ -1,0 +1,303 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// Auth Tables
+// ─────────────────────────────────────────────
+
+model User {
+  id              String    @id @default(uuid())
+  name            String
+  email           String
+  emailVerified   Boolean   @default(false)
+  username        String?
+  displayUsername String?
+  image           String?
+  role            String    @default("tenant")
+  banned          Boolean?  @default(false)
+  banReason       String?
+  banExpires      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  manager  Manager?
+  tenant   Tenant?
+  sessions Session[]
+  accounts Account[]
+
+  @@unique([email])
+  @@unique([username])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  expiresAt DateTime
+  token     String
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ─────────────────────────────────────────────
+// Domain enums
+// ─────────────────────────────────────────────
+
+enum Highlight {
+  HighSpeedInternetAccess
+  WasherDryer
+  AirConditioning
+  Heating
+  SmokeFree
+  CableReady
+  SatelliteTV
+  DoubleVanities
+  TubShower
+  Intercom
+  SprinklerSystem
+  RecentlyRenovated
+  CloseToTransit
+  GreatView
+  QuietNeighborhood
+}
+
+enum Amenity {
+  WasherDryer
+  AirConditioning
+  Dishwasher
+  HighSpeedInternet
+  HardwoodFloors
+  WalkInClosets
+  Microwave
+  Refrigerator
+  Pool
+  Gym
+  Parking
+  PetsAllowed
+  WiFi
+}
+
+enum PropertyType {
+  Rooms
+  Tinyhouse
+  Apartment
+  Villa
+  Townhouse
+  Cottage
+}
+
+enum ApplicationStatus {
+  Pending
+  Denied
+  Approved
+}
+
+enum PaymentStatus {
+  Pending
+  Paid
+  PartiallyPaid
+  Overdue
+}
+
+// ─────────────────────────────────────────────
+// Domain Tables
+// ─────────────────────────────────────────────
+
+model Manager {
+  id          Int    @id @default(autoincrement())
+  name        String
+  email       String
+  phoneNumber String
+
+  userId            String
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  managedProperties Property[]
+
+  @@unique([email])
+  @@unique([userId])
+  @@index([email])
+  @@map("manager")
+}
+
+model Tenant {
+  id          Int    @id @default(autoincrement())
+  name        String
+  email       String @unique
+  phoneNumber String
+
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  properties   Property[]    @relation("TenantProperties")
+  favorites    Property[]    @relation("TenantFavorites")
+  applications Application[]
+  leases       Lease[]
+
+  @@index([email])
+  @@map("tenant")
+}
+
+model Location {
+  id         Int    @id @default(autoincrement())
+  address    String
+  city       String
+  state      String
+  country    String
+  postalCode String
+  latitude   Float
+  longitude  Float
+
+  properties Property[]
+
+  @@index([city, state])
+  @@index([latitude, longitude])
+  @@map("location")
+}
+
+model Property {
+  id                Int          @id @default(autoincrement())
+  name              String
+  description       String
+  pricePerMonth     Float
+  securityDeposit   Float
+  applicationFee    Float
+  photoUrls         String[]
+  amenities         Amenity[]
+  highlights        Highlight[]
+  isPetsAllowed     Boolean      @default(false)
+  isParkingIncluded Boolean      @default(false)
+  beds              Int
+  baths             Float
+  squareFeet        Int
+  propertyType      PropertyType
+  postedDate        DateTime     @default(now())
+  averageRating     Float?       @default(0)
+  numberOfReviews   Int?         @default(0)
+
+  locationId    Int
+  location      Location      @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  managerUserId String
+  manager       Manager       @relation(fields: [managerUserId], references: [userId], onDelete: Cascade)
+  leases        Lease[]
+  applications  Application[]
+  favoritedBy   Tenant[]      @relation("TenantFavorites")
+  tenants       Tenant[]      @relation("TenantProperties")
+
+  @@index([locationId])
+  @@index([managerUserId])
+  @@index([propertyType])
+  @@index([pricePerMonth])
+  @@index([postedDate])
+  @@map("property")
+}
+
+model Application {
+  id              Int               @id @default(autoincrement())
+  applicationDate DateTime          @default(now())
+  status          ApplicationStatus @default(Pending)
+  name            String
+  email           String
+  phoneNumber     String
+  message         String?
+
+  propertyId   Int
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenantUserId String
+  tenant       Tenant   @relation(fields: [tenantUserId], references: [userId], onDelete: Cascade)
+  leaseId      Int?     @unique
+  lease        Lease?   @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([tenantUserId])
+  @@index([status])
+  @@map("application")
+}
+
+model Lease {
+  id        Int      @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  rent      Float
+  deposit   Float
+
+  propertyId   Int
+  property     Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenantUserId String
+  tenant       Tenant       @relation(fields: [tenantUserId], references: [userId], onDelete: Cascade)
+  application  Application?
+  payments     Payment[]
+
+  @@index([propertyId])
+  @@index([tenantUserId])
+  @@index([startDate, endDate])
+  @@map("lease")
+}
+
+model Payment {
+  id            Int           @id @default(autoincrement())
+  amountDue     Float
+  amountPaid    Float
+  dueDate       DateTime
+  paymentDate   DateTime?
+  paymentStatus PaymentStatus @default(Pending)
+
+  leaseId Int
+  lease   Lease @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+
+  @@index([leaseId])
+  @@index([paymentStatus])
+  @@index([dueDate])
+  @@map("payment")
+}
+
+

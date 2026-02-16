@@ -1,5 +1,5 @@
-import * as z from "zod";
 import { PropertyTypeEnum } from "@/lib/constants";
+import { z } from "zod";
 
 export const propertySchema = z.object({
   name: z.string().min(1, "Name is required"),

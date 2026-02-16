@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "userId": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "phoneNumber": "+1 (555) 123-4567"
+  },
+  {
+    "id": 2,
+    "userId": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@example.com",
+    "phoneNumber": "+1 (555) 987-6543"
+  },
+  {
+    "id": 3,
+    "userId": "550e8400-e29b-41d4-a716-446655440002",
+    "name": "Michael Brown",
+    "email": "michael.brown@example.com",
+    "phoneNumber": "+1 (555) 456-7890"
+  },
+  {
+    "id": 4,
+    "userId": "550e8400-e29b-41d4-a716-446655440003",
+    "name": "Emily Davis",
+    "email": "emily.davis@example.com",
+    "phoneNumber": "+1 (555) 234-5678"
+  },
+  {
+    "id": 5,
+    "userId": "550e8400-e29b-41d4-a716-446655440004",
+    "name": "Robert Wilson",
+    "email": "robert.wilson@example.com",
+    "phoneNumber": "+1 (555) 876-5432"
+  },
+  {
+    "id": 6,
+    "userId": "550e8400-e29b-41d4-a716-446655440005",
+    "name": "Lisa Thompson",
+    "email": "lisa.thompson@example.com",
+    "phoneNumber": "+1 (555) 345-6789"
+  },
+  {
+    "id": 7,
+    "userId": "550e8400-e29b-41d4-a716-446655440006",
+    "name": "Daniel Martinez",
+    "email": "daniel.martinez@example.com",
+    "phoneNumber": "+1 (555) 789-0123"
+  },
+  {
+    "id": 8,
+    "userId": "550e8400-e29b-41d4-a716-446655440007",
+    "name": "Olivia Garcia",
+    "email": "olivia.garcia@example.com",
+    "phoneNumber": "+1 (555) 678-9012"
+  },
+  {
+    "id": 9,
+    "userId": "550e8400-e29b-41d4-a716-446655440008",
+    "name": "Ethan Rodriguez",
+    "email": "ethan.rodriguez@example.com",
+    "phoneNumber": "+1 (555) 567-8901"
+  },
+  {
+    "id": 10,
+    "userId": "550e8400-e29b-41d4-a716-446655440009",
+    "name": "Sophia Kim",
+    "email": "sophia.kim@example.com",
+    "phoneNumber": "+1 (555) 456-7890"
+  }
+]

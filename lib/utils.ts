@@ -2,6 +2,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import { User } from "./auth-client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -57,8 +58,7 @@ export const withToast = async <T>(
 };
 
 export const createNewUserInDatabase = async (
-  user: any,
-  idToken: any,
+  user: User,
   userRole: string,
   fetchWithBQ: any,
 ) => {
@@ -69,9 +69,9 @@ export const createNewUserInDatabase = async (
     url: createEndpoint,
     method: "POST",
     body: {
-      cognitoId: user.userId,
+      userId: user.id,
       name: user.username,
-      email: idToken?.payload?.email || "",
+      email: user.email,
       phoneNumber: "",
     },
   });

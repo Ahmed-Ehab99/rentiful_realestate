@@ -1,0 +1,227 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "name": "Michael Brown",
+    "email": "michael.brown@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "name": "Emily Davis",
+    "email": "emily.davis@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "name": "Robert Wilson",
+    "email": "robert.wilson@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "name": "Lisa Thompson",
+    "email": "lisa.thompson@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440006",
+    "name": "Daniel Martinez",
+    "email": "daniel.martinez@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440007",
+    "name": "Olivia Garcia",
+    "email": "olivia.garcia@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440008",
+    "name": "Ethan Rodriguez",
+    "email": "ethan.rodriguez@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440009",
+    "name": "Sophia Kim",
+    "email": "sophia.kim@example.com",
+    "emailVerified": true,
+    "role": "manager",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440010",
+    "name": "Carol White",
+    "email": "carol.white@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440011",
+    "name": "Bob Green",
+    "email": "bob.green@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440012",
+    "name": "Alice Brown",
+    "email": "alice.brown@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440013",
+    "name": "David Lee",
+    "email": "david.lee@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440014",
+    "name": "Emma Taylor",
+    "email": "emma.taylor@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440015",
+    "name": "Frank Wilson",
+    "email": "frank.wilson@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440016",
+    "name": "Grace Miller",
+    "email": "grace.miller@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440017",
+    "name": "Henry Wilson",
+    "email": "henry.wilson@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440018",
+    "name": "Isabella Garcia",
+    "email": "isabella.garcia@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440019",
+    "name": "Jack Thompson",
+    "email": "jack.thompson@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440020",
+    "name": "Karen Martinez",
+    "email": "karen.martinez@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440021",
+    "name": "Liam Johnson",
+    "email": "liam.johnson@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440022",
+    "name": "Mia Rodriguez",
+    "email": "mia.rodriguez@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440023",
+    "name": "Noah Kim",
+    "email": "noah.kim@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440024",
+    "name": "Olivia Chen",
+    "email": "olivia.chen@example.com",
+    "emailVerified": true,
+    "role": "tenant",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+  }
+]
