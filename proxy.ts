@@ -28,11 +28,11 @@ export default async function proxy(request: NextRequest) {
 
   // Role-based protection
   if (pathname.startsWith("/managers") && userRole === "tenant") {
-    return NextResponse.redirect(new URL("/tenants", request.url));
+    return NextResponse.redirect(new URL("/tenants/favorites", request.url));
   }
 
   if (pathname.startsWith("/tenants") && userRole === "manager") {
-    return NextResponse.redirect(new URL("/managers", request.url));
+    return NextResponse.redirect(new URL("/managers/properties", request.url));
   }
 
   return NextResponse.next();

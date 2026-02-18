@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,33 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSignout } from "@/hooks/use-signout";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
 
 const UserDropdown = () => {
   const { data: session } = authClient.useSession();
   const router = useRouter();
-
-  const handleSignout = async () => {
-    try {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Signed out successfully!");
-            router.replace("/");
-          },
-        },
-      });
-    } catch {
-      toast.error("Failed to signout, Please try again");
-    }
-  };
+  const handleSignout = useSignout();
 
   return (
     <DropdownMenu>

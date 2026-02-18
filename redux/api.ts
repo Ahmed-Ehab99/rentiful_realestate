@@ -7,7 +7,7 @@ export const api = createApi({
     credentials: "include",
   }),
   reducerPath: "api",
-  tagTypes: ["AuthUser", "Properties", "Managers", "Tenants"],
+  tagTypes: ["AuthUser"],
   endpoints: (build) => ({
     getAuthUser: build.query<
       AuthUserResponse,
