@@ -125,7 +125,6 @@ declare global {
 
   interface SettingsFormProps {
     initialData: SettingsFormData;
-    onSubmit: (data: SettingsFormData) => Promise<void>;
     userType: "manager" | "tenant";
   }
 
@@ -134,6 +133,13 @@ declare global {
   interface AuthUserResponse {
     userInfo: Tenant | Manager;
     userRole: "tenant" | "manager";
+  }
+
+  interface UpdateSettingsPayload {
+    userId: string;
+    name?: string;
+    email?: string;
+    phoneNumber?: string;
   }
 }
 

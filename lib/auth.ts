@@ -24,6 +24,7 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
+        // auto-create username to user when creation
         before: async (user) => {
           let resolvedUsername = (user as Record<string, unknown>).username as
             | string
@@ -45,6 +46,30 @@ export const auth = betterAuth({
                 ((user as Record<string, unknown>).role as string) ?? "tenant",
             },
           };
+        },
+        // auto-create the profile on user creation
+        after: async (user) => {
+          const role = user.role ?? "tenant";
+
+          if (role === "manager") {
+            await prisma.manager.create({
+              data: {
+                userId: user.id,
+                name: user.name,
+                email: user.email,
+                phoneNumber: "",
+              },
+            });
+          } else {
+            await prisma.tenant.create({
+              data: {
+                userId: user.id,
+                name: user.name,
+                email: user.email,
+                phoneNumber: "",
+              },
+            });
+          }
         },
       },
     },

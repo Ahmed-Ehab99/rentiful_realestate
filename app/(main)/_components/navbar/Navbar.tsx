@@ -42,7 +42,7 @@ const Navbar = () => {
         </p>
 
         {isPending ? (
-          <Skeleton className="size-9 rounded-full" />
+          <Skeleton className="size-8 rounded-full" />
         ) : session ? (
           <UserDropdown />
         ) : (
