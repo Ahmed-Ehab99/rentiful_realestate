@@ -1,10 +1,10 @@
 "use server";
 
+import { getAuthUser } from "@/app/data/get-auth-user";
 import { prisma } from "@/lib/db";
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getAuthUser } from "../data/get-auth-user";
 
 export async function getSettingsData() {
   const user = await getAuthUser();

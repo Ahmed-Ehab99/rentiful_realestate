@@ -1,5 +1,5 @@
+import { getSettingsData } from "@/lib/actions/setting.actions";
 import SettingsForm from "../../_components/SettingsForm";
-import { getSettingsData } from "../../actions";
 
 const SettingsPage = async () => {
   const { userType, data } = await getSettingsData();

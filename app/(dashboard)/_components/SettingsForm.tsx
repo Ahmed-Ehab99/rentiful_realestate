@@ -4,13 +4,13 @@ import { CustomFormField } from "@/components/FormField";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { updateSettings } from "@/lib/actions/setting.actions";
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
 import { tryCatch } from "@/lib/try-catch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateSettings } from "../actions";
 
 const SettingsForm = ({ initialData, userType }: SettingsFormProps) => {
   const [editMode, setEditMode] = useState(false);
