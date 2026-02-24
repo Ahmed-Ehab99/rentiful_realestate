@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSignout } from "@/hooks/use-signout";
 import { authClient } from "@/lib/auth-client";
+import { LayoutDashboard, LogOut, Search, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const UserDropdown = () => {
@@ -54,9 +55,18 @@ const UserDropdown = () => {
             )
           }
         >
+          <LayoutDashboard />
           Go to Dashboard
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => {
+            router.push("/search");
+          }}
+        >
+          <Search />
+          Search
+        </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"
           onClick={() =>
@@ -65,9 +75,11 @@ const UserDropdown = () => {
             })
           }
         >
+          <Settings />
           Settings
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer" onClick={handleSignout}>
+          <LogOut />
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

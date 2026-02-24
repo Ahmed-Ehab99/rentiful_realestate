@@ -13,7 +13,39 @@ export type PropertyFilters = {
   propertyType?: PropertyType | "any";
   amenities?: Amenity[] | "any";
   availableFrom?: string | "any";
+  coordinates?: { lng: number; lat: number };
+  /** Search radius in km — defaults to 50 km when coordinates are provided */
+  radius?: number;
 };
+
+/**
+ * Haversine-based bounding box helper.
+ * Returns min/max lat/lng for a square region around a point.
+ * This is an approximation — good enough for filtering before
+ * Prisma returns results; exact distance can be refined client-side.
+ */
+function getBoundingBox(
+  lat: number,
+  lng: number,
+  radiusKm: number,
+): {
+  latMin: number;
+  latMax: number;
+  lngMin: number;
+  lngMax: number;
+} {
+  // 1 degree latitude ≈ 111 km
+  const latDelta = radiusKm / 111;
+  // 1 degree longitude varies by latitude
+  const lngDelta = radiusKm / (111 * Math.cos((lat * Math.PI) / 180));
+
+  return {
+    latMin: lat - latDelta,
+    latMax: lat + latDelta,
+    lngMin: lng - lngDelta,
+    lngMax: lng + lngDelta,
+  };
+}
 
 /**
  * Builds a Prisma WhereInput from parsed filters.
@@ -52,15 +84,28 @@ function buildWhereClause(filters: PropertyFilters): Prisma.PropertyWhereInput {
     where.propertyType = filters.propertyType;
   }
 
-  // hasSome: property must have at least one of the selected amenities
   if (filters.amenities && filters.amenities !== "any") {
     where.amenities = { hasSome: filters.amenities };
   }
 
-  // Property has a lease that started on or before the requested date
   if (filters.availableFrom && filters.availableFrom !== "any") {
     where.leases = {
       some: { startDate: { lte: new Date(filters.availableFrom) } },
+    };
+  }
+
+  // Geo filter: bounding box around the searched coordinates
+  if (filters.coordinates) {
+    const radiusKm = filters.radius ?? 50;
+    const { latMin, latMax, lngMin, lngMax } = getBoundingBox(
+      filters.coordinates.lat,
+      filters.coordinates.lng,
+      radiusKm,
+    );
+
+    where.location = {
+      latitude: { gte: latMin, lte: latMax },
+      longitude: { gte: lngMin, lte: lngMax },
     };
   }
 
@@ -80,6 +125,7 @@ export async function getProperties(filters: PropertyFilters = {}) {
   });
   return properties;
 }
+export type PropertiesType = Awaited<ReturnType<typeof getProperties>>;
 
 /**
  * getProperty → was GET /properties/:id
@@ -92,3 +138,4 @@ export async function getProperty(id: number) {
   });
   return property;
 }
+export type PropertySingularType = Awaited<ReturnType<typeof getProperty>>;

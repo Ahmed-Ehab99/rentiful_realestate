@@ -11,11 +11,6 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
 
-    EMAILJS_SERVICE_ID: z.string().min(1),
-    EMAILJS_TEMPLATE_ID: z.string().min(1),
-    EMAILJS_PUBLIC_KEY: z.string().min(1),
-    EMAILJS_PRIVATE_KEY: z.string().min(1),
-
     // ARCJET_KEY: z.string().min(1),
 
     AWS_ACCESS_KEY_ID: z.string().min(1),
@@ -26,8 +21,6 @@ export const env = createEnv({
 
     // STRIPE_SECRETE_KEY: z.string().min(1),
     // STRIPE_WEBHOOK_SECRET: z.string().min(1),
-
-    // ADMIN_EMAILS: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES: z.string().min(1),

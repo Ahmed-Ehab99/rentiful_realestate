@@ -6,8 +6,8 @@
     "state": "CA",
     "address": "123 Colorado Blvd",
     "postalCode": "91105",
-    "latitude": 34.147785,
-    "longitude": -118.144516
+    "latitude": 34.14778,
+    "longitude": -118.14452
   },
   {
     "id": 2,
@@ -16,8 +16,8 @@
     "state": "CA",
     "address": "456 Ocean Ave",
     "postalCode": "90401",
-    "latitude": 34.013654,
-    "longitude": -118.496513
+    "latitude": 34.024212,
+    "longitude": -118.496475
   },
   {
     "id": 3,
@@ -36,8 +36,8 @@
     "state": "CA",
     "address": "101 Pine Ave",
     "postalCode": "90802",
-    "latitude": 33.76672,
-    "longitude": -118.192604
+    "latitude": 33.77005,
+    "longitude": -118.193741
   },
   {
     "id": 5,
@@ -46,8 +46,8 @@
     "state": "NY",
     "address": "555 Manhattan Ave",
     "postalCode": "10001",
-    "latitude": 40.712784,
-    "longitude": -74.005941
+    "latitude": 40.776676,
+    "longitude": -73.971321
   },
   {
     "id": 6,
@@ -56,8 +56,8 @@
     "state": "CA",
     "address": "888 Malibu Road",
     "postalCode": "90265",
-    "latitude": 34.025922,
-    "longitude": -118.774518
+    "latitude": 34.031246,
+    "longitude": -118.788193
   },
   {
     "id": 7,
@@ -66,8 +66,8 @@
     "state": "CA",
     "address": "777 Brand Blvd",
     "postalCode": "91203",
-    "latitude": 34.142508,
-    "longitude": -118.254708
+    "latitude": 34.142509,
+    "longitude": -118.255074
   },
   {
     "id": 8,
@@ -82,12 +82,12 @@
   {
     "id": 9,
     "country": "United States",
-    "city": "Miami",
+    "city": "Miami Beach",
     "state": "FL",
     "address": "1234 Ocean Dr",
     "postalCode": "33139",
-    "latitude": 25.782551,
-    "longitude": -80.130045
+    "latitude": 25.782612,
+    "longitude": -80.134077
   },
   {
     "id": 10,

@@ -147,6 +147,16 @@
   .app {
     @apply bg-background text-foreground size-full text-sm;
   }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+}
+
+.scroll-none {
+  scrollbar-width: none
 }
 
 .dashboard-container {

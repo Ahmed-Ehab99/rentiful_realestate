@@ -11,7 +11,7 @@ const Navbar = () => {
   const { data: session, isPending } = authClient.useSession();
 
   return (
-    <div className={`fixed top-0 left-0 z-50 h-12.5 w-full shadow-xl`}>
+    <div className={`fixed top-0 left-0 z-50 h-13 w-full shadow-xl`}>
       <header className="bg-primary-700 flex w-full items-center justify-between px-8 py-3 text-white">
         <div className="flex items-center gap-4 md:gap-6">
           <Link
