@@ -16,12 +16,12 @@ const SearchPage = async ({
   const viewMode = params.view === "list" ? "list" : "grid";
 
   return (
-    <div className="mx-auto flex h-[calc(100vh-3.25rem)] w-full flex-col px-5">
+    <div className="mx-auto flex w-full flex-col px-5 lg:h-[calc(100vh-3.25rem)]">
       <FiltersBar />
       <div className="mb-5 flex flex-1 flex-col justify-between gap-3 overflow-hidden md:flex-row">
         <FiltersFull />
         <PropertyMap properties={properties} />
-        <div className="overflow-y-auto md:basis-5/12 scroll-none">
+        <div className="scroll-none h-160 overflow-y-auto md:h-115 md:basis-1/2 lg:h-full lg:basis-5/12">
           <Listings searchParams={params} viewMode={viewMode} />
         </div>
       </div>

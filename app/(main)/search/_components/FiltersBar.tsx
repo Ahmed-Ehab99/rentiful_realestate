@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useFiltersBar } from "@/hooks/use-filters-bar";
 import { PropertyTypeIcons } from "@/lib/constants";
 import { cn, formatPriceValue } from "@/lib/utils";
@@ -32,8 +33,8 @@ const FiltersBar = () => {
   } = useFiltersBar();
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-between py-5">
-      <div className="flex flex-wrap items-center gap-4 p-2">
+    <div className="flex flex-wrap items-center justify-between py-5 lg:flex-nowrap">
+      <div className="flex flex-1 flex-wrap items-center gap-4 p-2">
         {/* All Filters — renders FiltersFull with a custom trigger button */}
         <FiltersFull
           trigger={
@@ -81,7 +82,7 @@ const FiltersBar = () => {
             <SelectTrigger className="border-primary-400 w-fit rounded-xl">
               <SelectValue>{formatPriceValue(priceRange[0], true)}</SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white" position="popper">
               <SelectItem value="any">Any Min Price</SelectItem>
               {[500, 1000, 1500, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
@@ -100,7 +101,7 @@ const FiltersBar = () => {
                 {formatPriceValue(priceRange[1], false)}
               </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white" position="popper">
               <SelectItem value="any">Any Max Price</SelectItem>
               {[1000, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
@@ -120,7 +121,7 @@ const FiltersBar = () => {
             <SelectTrigger className="border-primary-400 w-fit rounded-xl">
               <SelectValue placeholder="Beds" />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white" position="popper">
               <SelectItem value="any">Any Beds</SelectItem>
               <SelectItem value="1">1+ bed</SelectItem>
               <SelectItem value="2">2+ beds</SelectItem>
@@ -137,7 +138,7 @@ const FiltersBar = () => {
             <SelectTrigger className="border-primary-400 w-fit rounded-xl">
               <SelectValue placeholder="Baths" />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white" position="popper">
               <SelectItem value="any">Any Baths</SelectItem>
               <SelectItem value="1">1+ bath</SelectItem>
               <SelectItem value="2">2+ baths</SelectItem>
@@ -154,7 +155,7 @@ const FiltersBar = () => {
           <SelectTrigger className="border-primary-400 w-fit rounded-xl">
             <SelectValue placeholder="Home Type" />
           </SelectTrigger>
-          <SelectContent className="bg-white">
+          <SelectContent className="bg-white" position="popper">
             <SelectItem value="any">Any Property Type</SelectItem>
             {Object.entries(PropertyTypeIcons).map(([type, Icon]) => (
               <SelectItem key={type} value={type}>
@@ -169,7 +170,7 @@ const FiltersBar = () => {
       </div>
 
       {/* View mode */}
-      <div className="flex items-center justify-between gap-4 p-2">
+      <div className="shrink-0 p-2">
         <div className="flex rounded-xl border">
           <Button
             variant="ghost"
@@ -179,7 +180,7 @@ const FiltersBar = () => {
             )}
             onClick={() => setViewMode("list")}
           >
-            <List className="h-5 w-5" />
+            <List className="size-5" />
           </Button>
           <Button
             variant="ghost"
@@ -189,7 +190,7 @@ const FiltersBar = () => {
             )}
             onClick={() => setViewMode("grid")}
           >
-            <Grid className="h-5 w-5" />
+            <Grid className="size-5" />
           </Button>
         </div>
       </div>
@@ -198,3 +199,28 @@ const FiltersBar = () => {
 };
 
 export default FiltersBar;
+
+export const FiltersBarSkeleton = () => {
+  return (
+    <div className="flex w-full flex-wrap items-center justify-between py-5">
+      <div className="flex flex-wrap items-center gap-4 p-2">
+        <Skeleton className="h-9 w-27" />
+        <Skeleton className="h-9 w-50.5" />
+        <div className="flex gap-1">
+          <Skeleton className="h-9 w-33.5" />
+          <Skeleton className="h-9 w-34" />
+        </div>
+        <div className="flex gap-1">
+          <Skeleton className="h-9 w-26.5" />
+          <Skeleton className="h-9 w-27.5" />
+        </div>
+        <Skeleton className="h-9 w-40.5" />
+      </div>
+      <div className="flex items-center justify-between gap-4 p-2">
+        <div className="flex rounded-xl border">
+          <Skeleton className="h-9.5 w-22.5" />
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -39,7 +39,7 @@ export function useFiltersBar() {
     [searchParams, pathname, router],
   );
   const [searchInput, setSearchInput] = useState(
-    searchParams.get("location") ?? "Los Angeles",
+    searchParams.get("location") ?? "",
   );
   const [isSearching, setIsSearching] = useState(false);
 

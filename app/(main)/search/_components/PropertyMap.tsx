@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/map";
 import { useMapCenter } from "@/hooks/use-map-center";
 import { PropertiesType } from "@/lib/queries/property.queries";
-import { Bath, BedDouble, MapPin, SearchX } from "lucide-react";
+import { Bath, BedDouble, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef } from "react";
@@ -60,7 +60,7 @@ const PropertyMap = ({ properties }: { properties: PropertiesType }) => {
   }, [searchParams]);
 
   return (
-    <div className="relative h-full grow overflow-hidden rounded-xl md:basis-7/12">
+    <div className="relative hidden grow overflow-hidden rounded-xl md:block md:h-115 md:basis-1/2 lg:h-full lg:basis-7/12">
       <Map center={center} zoom={zoom} className="rounded-xl">
         <MapFlyController center={center} zoom={zoom} />
 
@@ -132,20 +132,6 @@ const PropertyMap = ({ properties }: { properties: PropertiesType }) => {
           </MapMarker>
         ))}
       </Map>
-
-      {properties.length === 0 && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-          <div className="pointer-events-auto rounded-xl bg-white/90 px-6 py-4 text-center shadow-lg backdrop-blur-sm">
-            <SearchX className="mx-auto mb-2 h-6 w-6 text-gray-400" />
-            <p className="text-sm font-medium text-gray-700">
-              No properties in this area
-            </p>
-            <p className="text-xs text-gray-500">
-              Try zooming out or adjusting filters
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

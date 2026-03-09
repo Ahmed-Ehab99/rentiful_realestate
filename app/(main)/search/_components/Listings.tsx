@@ -60,7 +60,7 @@ const Listings = async ({ searchParams, viewMode }: ListingsProps) => {
             property,
             isFavorite,
             showFavoriteButton: session?.user.role === "tenant",
-            propertyLink: `/properties/${property.id}`,
+            propertyLink: `/search/${property.id}`,
           };
 
           return viewMode === "grid" ? (

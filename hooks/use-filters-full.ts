@@ -5,7 +5,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
 export type LocalFilters = {
-  location: string;
   propertyType: PropertyType | "any";
   priceMin: number;
   priceMax: number;
@@ -17,11 +16,7 @@ export type LocalFilters = {
   availableFrom: string;
 };
 
-// Resolved coordinates stored separately — not part of filter shape
-type ResolvedCoordinates = { lng: number; lat: number } | null;
-
 const DEFAULT_FILTERS: LocalFilters = {
-  location: "",
   propertyType: "any",
   priceMin: 0,
   priceMax: 10000,
@@ -35,7 +30,6 @@ const DEFAULT_FILTERS: LocalFilters = {
 
 function initFromParams(searchParams: URLSearchParams): LocalFilters {
   return {
-    location: searchParams.get("location") ?? "",
     propertyType: (searchParams.get("propertyType") as PropertyType) ?? "any",
     priceMin: Number(searchParams.get("priceMin") ?? 0),
     priceMax: Number(searchParams.get("priceMax") ?? 10000),
@@ -59,47 +53,14 @@ export function useFiltersFull() {
   const [localFilters, setLocalFilters] = useState<LocalFilters>(() =>
     initFromParams(searchParams),
   );
-  // Stored separately so LocalFilters type stays clean
-  const [resolvedCoords, setResolvedCoords] =
-    useState<ResolvedCoordinates>(null);
-  const [isSearching, setIsSearching] = useState(false);
 
   const handleOpenChange = (isOpen: boolean) => {
     if (isOpen) {
       setLocalFilters(initFromParams(searchParams));
-      setResolvedCoords(null);
     }
     setOpen(isOpen);
   };
-
-  /**
-   * Geocodes via our own API route to avoid CORS issues.
-   * Coordinates are held in local state until Apply.
-   */
-  const handleLocationSearch = useCallback(async () => {
-    if (!localFilters.location.trim()) return;
-
-    setIsSearching(true);
-    try {
-      const res = await fetch(
-        `/api/geocode?${new URLSearchParams({ q: localFilters.location })}`,
-      );
-
-      if (!res.ok) {
-        const err = await res.json();
-        console.error("Geocode error:", err.error);
-        return;
-      }
-
-      const { lat, lng } = await res.json();
-      setResolvedCoords({ lng, lat });
-    } catch (err) {
-      console.error("Error searching location:", err);
-    } finally {
-      setIsSearching(false);
-    }
-  }, [localFilters.location]);
-
+  
   const handleApply = () => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -108,16 +69,10 @@ export function useFiltersFull() {
       else params.set(key, value);
     };
 
-    set("location", localFilters.location);
     set("propertyType", localFilters.propertyType);
     set("beds", localFilters.beds);
     set("baths", localFilters.baths);
     set("availableFrom", localFilters.availableFrom);
-
-    // Push coordinates only if user actually searched a location in the sheet
-    if (resolvedCoords) {
-      params.set("coordinates", `${resolvedCoords.lng},${resolvedCoords.lat}`);
-    }
 
     if (localFilters.priceMin > 0)
       params.set("priceMin", String(localFilters.priceMin));
@@ -145,7 +100,6 @@ export function useFiltersFull() {
 
   const handleReset = () => {
     setLocalFilters(DEFAULT_FILTERS);
-    setResolvedCoords(null);
     router.push(pathname);
     setOpen(false);
   };
@@ -181,7 +135,6 @@ export function useFiltersFull() {
     }));
 
   const activeFilterCount = [
-    localFilters.location,
     localFilters.propertyType !== "any",
     localFilters.beds !== "any",
     localFilters.baths !== "any",
@@ -195,13 +148,10 @@ export function useFiltersFull() {
     open,
     localFilters,
     activeFilterCount,
-    isSearching,
-    resolvedCoords,
     handleOpenChange,
     handleApply,
     handleReset,
     handleAmenityToggle,
-    handleLocationSearch,
     updateFilter,
     updatePriceRange,
     updateSquareFeetRange,

@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,8 +10,8 @@ const Navbar = () => {
   const { data: session, isPending } = authClient.useSession();
 
   return (
-    <div className={`fixed top-0 left-0 z-50 h-13 w-full shadow-xl`}>
-      <header className="bg-primary-700 flex w-full items-center justify-between px-8 py-3 text-white">
+    <div className={`fixed top-0 left-0 z-50 h-15 w-full shadow-xl`}>
+      <header className="bg-primary-700 grid w-full grid-cols-3 items-center justify-between px-8 py-3 text-white">
         <div className="flex items-center gap-4 md:gap-6">
           <Link
             href="/"
@@ -37,17 +36,19 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <p className="text-primary-200 hidden md:block">
+        <p className="text-primary-200 hidden text-center md:block">
           Discover your rental apartment with our advanced search
         </p>
 
-        {isPending ? (
-          <Skeleton className="size-8 rounded-full" />
-        ) : session ? (
-          <UserDropdown />
-        ) : (
-          <AuthBtns />
-        )}
+        <div className="flex justify-end items-center">
+          {isPending ? (
+            <span className="h-9" />
+          ) : session ? (
+            <UserDropdown />
+          ) : (
+            <AuthBtns />
+          )}
+        </div>
       </header>
     </div>
   );

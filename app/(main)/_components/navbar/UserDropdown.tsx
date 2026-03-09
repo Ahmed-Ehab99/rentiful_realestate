@@ -22,7 +22,7 @@ const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
-        <Avatar>
+        <Avatar className="size-9">
           <AvatarImage
             src={session?.user.image || ""}
             alt={session?.user.name}

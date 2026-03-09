@@ -24,7 +24,6 @@ import { useFiltersFull } from "@/hooks/use-filters-full";
 import { AmenityIcons, PropertyTypeIcons } from "@/lib/constants";
 import { cn, formatEnumString } from "@/lib/utils";
 import { Amenity } from "@/prisma/generated/prisma/enums";
-import { Loader2, Search } from "lucide-react";
 import { ReactNode } from "react";
 
 const FiltersFull = ({ trigger }: { trigger?: ReactNode }) => {
@@ -36,7 +35,6 @@ const FiltersFull = ({ trigger }: { trigger?: ReactNode }) => {
     handleReset,
     handleAmenityToggle,
     updateFilter,
-    isSearching,
     updatePriceRange,
     updateSquareFeetRange,
     togglePropertyType,
@@ -53,30 +51,6 @@ const FiltersFull = ({ trigger }: { trigger?: ReactNode }) => {
         </SheetHeader>
 
         <div className="flex flex-col space-y-6 px-4 py-4">
-          {/* Location */}
-          <div>
-            <h4 className="mb-2 font-bold">Location</h4>
-            <div className="flex items-center">
-              <Input
-                placeholder="Enter location"
-                disabled={isSearching}
-                value={localFilters.location}
-                onChange={(e) => updateFilter("location", e.target.value)}
-                className="rounded-l-xl rounded-r-none border-r-0"
-              />
-              <Button
-                className="hover:bg-primary-700 rounded-l-none rounded-r-xl border border-black shadow-none hover:text-white"
-                disabled={isSearching}
-              >
-                {isSearching ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Search className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          </div>
-
           {/* Property Type */}
           <div>
             <h4 className="mb-2 font-bold">Property Type</h4>

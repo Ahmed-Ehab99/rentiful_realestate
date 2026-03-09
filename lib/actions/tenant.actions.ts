@@ -60,6 +60,15 @@ export async function updateTenant(data: SettingsFormData) {
 export async function addFavoriteProperty(propertyId: number) {
   const user = await requireTenant();
 
+  console.log("Session userId:", user.id);
+
+  const findTenant = await prisma.tenant.findUnique({
+    where: { userId: user.id },
+  });
+  console.log("Found tenant:", findTenant);
+
+  if (!findTenant) throw new Error(`No tenant found for userId: ${user.id}`);
+
   const tenant = await prisma.tenant.update({
     where: { userId: user.id },
     data: {
@@ -68,7 +77,7 @@ export async function addFavoriteProperty(propertyId: number) {
     include: { favorites: true },
   });
 
-  revalidatePath("/properties");
+  revalidatePath("/search");
   return tenant;
 }
 
@@ -89,6 +98,6 @@ export async function removeFavoriteProperty(propertyId: number) {
     include: { favorites: true },
   });
 
-  revalidatePath("/properties");
+  revalidatePath("/search");
   return tenant;
 }
