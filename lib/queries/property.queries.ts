@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { Prisma } from "@/prisma/generated/prisma/client";
 import { Amenity, PropertyType } from "@/prisma/generated/prisma/enums";
+import { notFound } from "next/navigation";
 
 export type PropertyFilters = {
   favoriteIds?: number[];
@@ -136,6 +137,11 @@ export async function getProperty(id: number) {
     where: { id },
     include: { location: true },
   });
+
+  if (!property) {
+    return notFound();
+  }
+
   return property;
 }
 export type PropertySingularType = Awaited<ReturnType<typeof getProperty>>;

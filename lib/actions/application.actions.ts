@@ -1,25 +1,12 @@
 "use server";
 
-import { auth } from "@/lib/auth";
+import { getAuthUser } from "@/app/data/get-auth-user";
+import { requireManager } from "@/app/data/require-manager";
 import { prisma } from "@/lib/db";
 import { calculateNextPaymentDate } from "@/lib/queries/application.queries";
 import { applicationSchema } from "@/lib/schemas";
 import { ApplicationStatus } from "@/prisma/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-
-async function requireAuth() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) redirect("/sign-in");
-  return session.user;
-}
-
-async function requireManager() {
-  const user = await requireAuth();
-  if (user.role !== "manager") redirect("/");
-  return user;
-}
 
 /**
  * createApplication → was POST /applications
@@ -36,7 +23,7 @@ export async function createApplication(
   propertyId: number,
   formData: FormData,
 ) {
-  const user = await requireAuth();
+  const user = await getAuthUser();
 
   // Only tenants can apply
   if (user.role !== "tenant") {
