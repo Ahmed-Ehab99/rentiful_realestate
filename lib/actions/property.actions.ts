@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { requireManager } from "@/app/data/require-manager";
@@ -25,16 +24,18 @@ export async function createProperty(formData: FormData) {
   const rawData = {
     name: formData.get("name"),
     description: formData.get("description"),
-    pricePerMonth: formData.get("pricePerMonth"),
-    securityDeposit: formData.get("securityDeposit"),
-    applicationFee: formData.get("applicationFee"),
+    pricePerMonth: Number(formData.get("pricePerMonth")),
+    securityDeposit: Number(formData.get("securityDeposit")),
+    applicationFee: Number(formData.get("applicationFee")),
+    beds: Number(formData.get("beds")),
+    baths: Number(formData.get("baths")),
+    squareFeet: Number(formData.get("squareFeet")),
     isPetsAllowed: formData.get("isPetsAllowed") === "true",
     isParkingIncluded: formData.get("isParkingIncluded") === "true",
-    amenities: formData.get("amenities"),
-    highlights: formData.get("highlights"),
-    beds: formData.get("beds"),
-    baths: formData.get("baths"),
-    squareFeet: formData.get("squareFeet"),
+    amenities:
+      (formData.get("amenities") as string)?.split(",").filter(Boolean) ?? [],
+    highlights:
+      (formData.get("highlights") as string)?.split(",").filter(Boolean) ?? [],
     propertyType: formData.get("propertyType"),
     address: formData.get("address"),
     city: formData.get("city"),
@@ -98,8 +99,8 @@ export async function createProperty(formData: FormData) {
         applicationFee: data.applicationFee,
         isPetsAllowed: data.isPetsAllowed,
         isParkingIncluded: data.isParkingIncluded,
-        amenities: data.amenities.split(",") as any,
-        highlights: data.highlights.split(",") as any,
+        amenities: data.amenities,
+        highlights: data.highlights,
         beds: data.beds,
         baths: data.baths,
         squareFeet: data.squareFeet,
@@ -109,13 +110,15 @@ export async function createProperty(formData: FormData) {
         locationId: location.id,
         // Always from session — never trust the client for this
         managerUserId: user.id,
+        averageRating: 0,
+        numberOfReviews: 0,
       },
       include: { location: true, manager: true },
     });
   });
 
   revalidatePath("/properties");
-  revalidatePath("/dashboard");
+  revalidatePath("/search");
 
   return property;
 }

@@ -1,20 +1,24 @@
-import { PropertyTypeEnum } from "@/lib/constants";
+import { AmenityEnum, HighlightEnum, PropertyTypeEnum } from "@/lib/constants";
 import { z } from "zod";
 
 export const propertySchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
-  pricePerMonth: z.coerce.number().positive().min(0).int(),
-  securityDeposit: z.coerce.number().positive().min(0).int(),
-  applicationFee: z.coerce.number().positive().min(0).int(),
+  pricePerMonth: z.number().positive().min(0).int(),
+  securityDeposit: z.number().positive().min(0).int(),
+  applicationFee: z.number().positive().min(0).int(),
   isPetsAllowed: z.boolean(),
   isParkingIncluded: z.boolean(),
   photoUrls: z.array(z.string().url()).min(1, "At least one photo is required"),
-  amenities: z.string().min(1, "Amenities are required"),
-  highlights: z.string().min(1, "Highlights are required"),
-  beds: z.coerce.number().positive().min(0).max(10).int(),
-  baths: z.coerce.number().positive().min(0).max(10).int(),
-  squareFeet: z.coerce.number().int().positive(),
+  amenities: z
+    .array(z.nativeEnum(AmenityEnum))
+    .min(1, "Select at least one amenity"),
+  highlights: z
+    .array(z.nativeEnum(HighlightEnum))
+    .min(1, "Select at least one highlight"),
+  beds: z.number().positive().min(0).max(10).int(),
+  baths: z.number().positive().min(0).max(10).int(),
+  squareFeet: z.number().int().positive(),
   propertyType: z.nativeEnum(PropertyTypeEnum),
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
@@ -23,7 +27,19 @@ export const propertySchema = z.object({
   postalCode: z.string().min(1, "Postal code is required"),
 });
 
-export type PropertyFormData = z.infer<typeof propertySchema>;
+export const propertyFormSchema = propertySchema.extend({
+  // The form stores the resulting S3 object keys (not File objects).
+  photoUrls: z
+    .array(z.string())
+    .refine(
+      (arr) => arr.some((v) => typeof v === "string" && v.trim().length > 0),
+      {
+        message: "At least one photo is required",
+      },
+    ),
+});
+
+export type PropertyFormData = z.infer<typeof propertyFormSchema>;
 
 export const applicationSchema = z.object({
   name: z.string().min(1, "Name is required"),

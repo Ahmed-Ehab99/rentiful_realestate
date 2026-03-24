@@ -35,19 +35,17 @@ const CallToActionSection = () => {
             </p>
             <div className="flex justify-center gap-4 md:justify-start">
               <Button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                asChild
                 className="text-primary-700 hover:bg-primary-500 hover:text-primary-50 rounded-lg bg-white"
               >
-                Search
+                <Link href="/search">Search</Link>
               </Button>
               <Button
                 asChild
                 variant="secondary"
                 className="bg-secondary-500 hover:bg-secondary-600 rounded-lg text-white"
               >
-                <Link href="/signup" scroll={false}>
-                  Sign Up
-                </Link>
+                <Link href="/signup">Sign Up</Link>
               </Button>
             </div>
           </div>

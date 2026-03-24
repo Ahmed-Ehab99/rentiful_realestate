@@ -1,10 +1,10 @@
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { getTenant } from "@/lib/queries/tenant.queries";
 import { getProperties } from "@/lib/queries/property.queries";
+import { getTenant } from "@/lib/queries/tenant.queries";
 import { parsePropertyFilters } from "@/lib/validations/property.validations";
 import { SearchX } from "lucide-react";
-import PropertyCard from "./PropertyCard";
+import { headers } from "next/headers";
+import PropertyCard from "../../../../components/PropertyCard";
 import PropertyCardCompact from "./PropertyCardCompact";
 
 interface ListingsProps {

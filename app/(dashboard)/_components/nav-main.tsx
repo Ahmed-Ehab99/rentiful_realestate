@@ -7,6 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
 import { IconBuilding, IconFileText, IconSettings } from "@tabler/icons-react";
 import { FileText, Heart, Home, Settings } from "lucide-react";
@@ -15,7 +16,7 @@ import { usePathname } from "next/navigation";
 
 export function NavMain() {
   const pathname = usePathname();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const userType = session?.user.role;
   const navItems =
     userType === "manager"
@@ -47,29 +48,33 @@ export function NavMain() {
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
+          {isPending ? (
+            <Skeleton className="h-60 w-full" />
+          ) : (
+            navItems.map((item) => {
+              const isActive = pathname === item.href;
 
-            return (
-              <SidebarMenuItem key={item.label}>
-                <SidebarMenuButton
-                  asChild
-                  tooltip={item.label}
-                  isActive={isActive}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex cursor-pointer items-center gap-4 p-1.5!"
+              return (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.label}
+                    isActive={isActive}
                   >
-                    {item.icon && (
-                      <item.icon className="group-data-[collapsible=icon]:ml-1" />
-                    )}
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            );
-          })}
+                    <Link
+                      href={item.href}
+                      className="flex cursor-pointer items-center gap-4 p-1.5!"
+                    >
+                      {item.icon && (
+                        <item.icon className="group-data-[collapsible=icon]:ml-1" />
+                      )}
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })
+          )}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

@@ -159,10 +159,6 @@
   scrollbar-width: none
 }
 
-.dashboard-container {
-  @apply px-8 pt-8 pb-5;
-}
-
 .mapboxgl-popup-content {
   @apply bg-primary-700!;
   @apply rounded-lg!;

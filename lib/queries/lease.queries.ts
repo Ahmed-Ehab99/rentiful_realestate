@@ -8,10 +8,7 @@ import { prisma } from "@/lib/db";
  * We scope it to the current user so a tenant only sees their own leases
  * and a manager only sees leases on their properties.
  */
-export async function getLeases(
-  userId: string,
-  userType: "tenant" | "manager",
-) {
+export async function getLeases(userId: string, userType: string) {
   const where =
     userType === "tenant"
       ? { tenantUserId: userId }
@@ -31,6 +28,7 @@ export async function getLeases(
 
   return leases;
 }
+export type LeasesType = Awaited<ReturnType<typeof getLeases>>;
 
 /**
  * getLeasePayments → was GET /leases/:id/payments
@@ -42,7 +40,7 @@ export async function getLeases(
 export async function getLeasePayments(
   leaseId: number,
   userId: string,
-  userType: "tenant" | "manager",
+  userType: string,
 ) {
   // Verify the lease belongs to this user before exposing payment data
   const lease = await prisma.lease.findUnique({
@@ -66,3 +64,4 @@ export async function getLeasePayments(
 
   return payments;
 }
+export type LeasePaymentsType = Awaited<ReturnType<typeof getLeasePayments>>;

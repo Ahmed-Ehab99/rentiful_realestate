@@ -112,6 +112,8 @@ export const PropertyTypeIcons: Record<PropertyTypeEnum, LucideIcon> = {
 
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 52; // in pixels
+export const IMAGE_MAX_SIZE = 5 * 1024 * 1024; // 5MB
+export const VIDEO_MAX_SIZE = 50 * 1024 * 1024; // 50MB
 
 // Test users for development
 export const testUsers = {

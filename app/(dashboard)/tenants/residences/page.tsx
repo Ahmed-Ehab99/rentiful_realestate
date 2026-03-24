@@ -1,13 +1,13 @@
 import { getAuthUser } from "@/app/data/get-auth-user";
 import EmptyState from "@/components/EmptyState";
 import PropertyCard from "@/components/PropertyCard";
-import { getTenant } from "@/lib/queries/tenant.queries";
-import { Heart } from "lucide-react";
+import { getCurrentResidences } from "@/lib/queries/tenant.queries";
+import { House } from "lucide-react";
 import Header from "../../_components/Header";
 
-const FavoritesPage = async () => {
+const ResidencesPage = async () => {
   const user = await getAuthUser();
-  const tenant = await getTenant(user.id);
+  const residences = await getCurrentResidences(user.id);
 
   return (
     <>
@@ -15,9 +15,9 @@ const FavoritesPage = async () => {
         title="Favorited Properties"
         subtitle="Browse and manage your saved property listings"
       />
-      {tenant.favorites && tenant.favorites.length > 0 ? (
+      {residences && residences.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {tenant.favorites.map((property) => (
+          {residences.map((property) => (
             <PropertyCard
               key={property.id}
               property={property}
@@ -28,15 +28,15 @@ const FavoritesPage = async () => {
         </div>
       ) : (
         <EmptyState
-          Icon={Heart}
-          title="No favorites yet"
-          description="You haven't saved any property listings to your favorites."
+          Icon={House}
+          title="No active residences"
+          description="You don't have any current property residencies linked to your account."
           btnHref="/search"
-          btnText="Explore Property"
+          btnText="Explore Properties"
         />
       )}
     </>
   );
 };
 
-export default FavoritesPage;
+export default ResidencesPage;

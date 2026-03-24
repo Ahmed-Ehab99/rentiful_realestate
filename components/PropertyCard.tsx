@@ -23,9 +23,6 @@ const PropertyCard = ({
   showFavoriteButton = true,
   propertyLink,
 }: PropertyCardProps) => {
-  const [imgSrc, setImgSrc] = useState(
-    property?.photoUrls?.[0] || "/placeholder.jpg",
-  );
   // Optimistic UI — flip the heart instantly, revert if the action fails
   const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
   const [isPending, startTransition] = useTransition();
@@ -53,12 +50,11 @@ const PropertyCard = ({
       <div className="relative">
         <div className="relative h-48 w-full">
           <Image
-            src={imgSrc}
+            src={property?.photoUrls?.[0]}
             alt={property.name}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgSrc("/placeholder.jpg")}
           />
         </div>
         <div className="absolute bottom-4 left-4 flex gap-2">

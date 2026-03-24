@@ -1,6 +1,7 @@
 import { MotionProps as OriginalMotionProps } from "framer-motion";
 import { LucideIcon } from "lucide-react";
-import { Application, Manager, Property, Tenant } from "./prismaTypes";
+import { Application, Manager, Tenant } from "./prismaTypes";
+import { TenantType } from "./queries/tenant.queries";
 
 declare module "framer-motion" {
   interface MotionProps extends OriginalMotionProps {
@@ -9,15 +10,6 @@ declare module "framer-motion" {
 }
 
 declare global {
-  enum PropertyTypeEnum {
-    Rooms = "Rooms",
-    Tinyhouse = "Tinyhouse",
-    Apartment = "Apartment",
-    Villa = "Villa",
-    Townhouse = "Townhouse",
-    Cottage = "Cottage",
-  }
-
   interface SidebarLinkProps {
     href: string;
     icon: LucideIcon;
@@ -60,25 +52,12 @@ declare global {
     children: React.ReactNode;
   }
 
-  interface CardProps {
-    property: Property;
-    isFavorite: boolean;
-    onFavoriteToggle: () => void;
-    showFavoriteButton?: boolean;
-    propertyLink?: string;
-  }
-
   interface CardCompactProps {
-    property: Property;
+    property: TenantType["favorites"][0];
     isFavorite: boolean;
     onFavoriteToggle: () => void;
     showFavoriteButton?: boolean;
     propertyLink?: string;
-  }
-
-  interface HeaderProps {
-    title: string;
-    subtitle: string;
   }
 
   interface NavbarProps {

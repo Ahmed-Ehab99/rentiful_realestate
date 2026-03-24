@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { notFound } from "next/navigation";
 
 /**
  * getTenant → was GET /tenants/:cognitoId
@@ -7,10 +8,22 @@ import { prisma } from "@/lib/db";
 export async function getTenant(userId: string) {
   const tenant = await prisma.tenant.findUnique({
     where: { userId },
-    include: { favorites: true },
+    include: {
+      favorites: {
+        include: {
+          location: true,
+        },
+      },
+    },
   });
-  return tenant; // null if not found — caller handles it
+
+  if (!tenant) {
+    return notFound();
+  }
+
+  return tenant;
 }
+export type TenantType = Awaited<ReturnType<typeof getTenant>>;
 
 /**
  * getCurrentResidences → was GET /tenants/:cognitoId/current-residences

@@ -1,6 +1,11 @@
 "use client";
 
-import { IconDotsVertical, IconHome, IconLogout } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconHome,
+  IconLogout,
+  IconSearch,
+} from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -106,6 +111,12 @@ export function NavUser() {
                 <Link href="/">
                   <IconHome />
                   Home
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/search">
+                  <IconSearch />
+                  Search
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -20,13 +20,17 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">
-          {session?.user.role === "manager" ? (
-            <>Manager View</>
-          ) : (
-            <>Renter View</>
-          )}
-        </h1>
+        {isPending ? (
+          <Skeleton className="h-6 w-28" />
+        ) : (
+          <h1 className="text-base font-medium">
+            {session?.user.role === "manager" ? (
+              <>Manager View</>
+            ) : (
+              <>Renter View</>
+            )}
+          </h1>
+        )}
         {isPending ? (
           <Skeleton className="ml-auto h-9 w-43.5" />
         ) : (
@@ -36,7 +40,7 @@ export function SiteHeader() {
             onClick={() =>
               router.push(
                 session?.user.role === "manager"
-                  ? "/managers/newproperty"
+                  ? "/managers/newProperty"
                   : "/search",
               )
             }
