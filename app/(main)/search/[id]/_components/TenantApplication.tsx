@@ -21,8 +21,8 @@ const TenantApplication = ({ property, user }: TenantApplicationProps) => {
         <ApplicationModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-                  property={property}
-                  user= {user}
+          property={property}
+          user={user}
         />
       )}
     </>

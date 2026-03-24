@@ -7,11 +7,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { Spinner } from "@/components/ui/spinner";
 import { createApplication } from "@/lib/actions/application.actions";
 import { User } from "@/lib/auth-client";
 import { PropertySingularType } from "@/lib/queries/property.queries";
 import { ApplicationFormData, applicationSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -28,6 +30,8 @@ const ApplicationModal = ({
   property,
   user,
 }: ApplicationModalProps) => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationSchema),
     defaultValues: {
@@ -38,28 +42,32 @@ const ApplicationModal = ({
     },
   });
 
-  const onSubmit = async (data: ApplicationFormData) => {
+  const onSubmit = (data: ApplicationFormData) => {
     if (!user || user.role !== "tenant") {
       toast.error("You must be logged in as a tenant to submit an application");
       return;
     }
 
-    try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("phoneNumber", data.phoneNumber);
-      formData.append("message", data.message ?? "");
+    startTransition(async () => {
+      try {
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("phoneNumber", data.phoneNumber);
+        formData.append("message", data.message ?? "");
 
-      await createApplication(property.id, formData);
-      toast.success("Application submitted successfully!");
-      form.reset();
-      onClose();
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to submit application",
-      );
-    }
+        await createApplication(property.id, formData);
+        toast.success("Application submitted successfully!");
+        form.reset();
+        onClose();
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Failed to submit application",
+        );
+      }
+    });
   };
 
   return (
@@ -94,8 +102,19 @@ const ApplicationModal = ({
               type="textarea"
               placeholder="Enter any additional information"
             />
-            <Button type="submit" className="bg-primary-700 w-full text-white">
-              Submit Application
+            <Button
+              type="submit"
+              className="bg-primary-700 w-full text-white"
+              disabled={isPending || !form.formState.isDirty}
+            >
+              {isPending ? (
+                <>
+                  <Spinner />
+                  Submitting...
+                </>
+              ) : (
+                "Submit Application"
+              )}
             </Button>
           </form>
         </Form>

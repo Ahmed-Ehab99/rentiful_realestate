@@ -24,10 +24,7 @@ export function calculateNextPaymentDate(startDate: Date): Date {
  *    replaced by a single query that fetches all relevant leases at once,
  *    then maps them in memory — much more efficient.
  */
-export async function listApplications(
-  userId: string,
-  userType: "tenant" | "manager",
-) {
+export async function listApplications(userId: string, userType: string) {
   const where =
     userType === "tenant"
       ? { tenantUserId: userId }
@@ -67,3 +64,4 @@ export async function listApplications(
       : null,
   }));
 }
+export type ApplicationsType = Awaited<ReturnType<typeof listApplications>>;
