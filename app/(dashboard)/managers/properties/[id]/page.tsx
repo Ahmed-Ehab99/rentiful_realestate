@@ -1,5 +1,5 @@
 import Header from "@/app/(dashboard)/_components/Header";
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,6 +13,7 @@ import { getLeasePayments, getLeases } from "@/lib/queries/lease.queries";
 import { getProperty } from "@/lib/queries/property.queries";
 import { ArrowDownToLine, Check, Download } from "lucide-react";
 import Image from "next/image";
+import { forbidden, unauthorized } from "next/navigation";
 
 const PropertyTenantsPage = async ({
   params,
@@ -21,7 +22,12 @@ const PropertyTenantsPage = async ({
 }) => {
   const { id } = await params;
   const property = await getProperty(Number(id));
-  const user = await getAuthUser();
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
+  if (user.role !== "manager") forbidden();
+
   const leases = await getLeases(user.id, user.role);
   const payments = await getLeasePayments(leases[0].id, user.id, user.role);
 

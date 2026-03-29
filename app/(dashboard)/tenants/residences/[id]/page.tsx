@@ -1,9 +1,10 @@
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import { getLeasePayments, getLeases } from "@/lib/queries/lease.queries";
 import { getProperty } from "@/lib/queries/property.queries";
 import BillingHistory from "./_components/BillingHistory";
 import PaymentMethod from "./_components/PaymentMethod";
 import ResidenceCard from "./_components/ResidenceCard";
+import { forbidden, unauthorized } from "next/navigation";
 
 const ResidenceDetailsPage = async ({
   params,
@@ -11,8 +12,13 @@ const ResidenceDetailsPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
+  if (user.role !== "tenant") forbidden();
+
   const property = await getProperty(Number(id));
-  const user = await getAuthUser();
   const leases = await getLeases(user.id, user.role);
   const payments = await getLeasePayments(leases[0].id, user.id, user.role);
 

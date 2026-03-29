@@ -1,12 +1,13 @@
 "use server";
 
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import { requireManager } from "@/app/data/require-manager";
 import { prisma } from "@/lib/db";
 import { calculateNextPaymentDate } from "@/lib/queries/application.queries";
 import { applicationSchema } from "@/lib/schemas";
 import { ApplicationStatus } from "@/prisma/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
+import { forbidden, unauthorized } from "next/navigation";
 
 /**
  * createApplication → was POST /applications
@@ -23,12 +24,13 @@ export async function createApplication(
   propertyId: number,
   formData: FormData,
 ) {
-  const user = await getAuthUser();
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
 
   // Only tenants can apply
-  if (user.role !== "tenant") {
-    throw new Error("Only tenants can submit applications");
-  }
+  if (user.role !== "tenant") forbidden();
 
   const rawData = {
     name: formData.get("name"),

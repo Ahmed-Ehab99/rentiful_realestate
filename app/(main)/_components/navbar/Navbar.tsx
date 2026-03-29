@@ -1,13 +1,12 @@
-"use client";
-
-import { authClient } from "@/lib/auth-client";
+import { getServerSession } from "@/app/data/get-session";
 import Image from "next/image";
 import Link from "next/link";
 import AuthBtns from "./AuthBtns";
 import UserDropdown from "./UserDropdown";
 
-const Navbar = () => {
-  const { data: session, isPending } = authClient.useSession();
+const Navbar = async () => {
+  const session = await getServerSession();
+  const user = session?.user;
 
   return (
     <div className={`fixed top-0 left-0 z-50 h-15 w-full shadow-xl`}>
@@ -40,14 +39,8 @@ const Navbar = () => {
           Discover your rental apartment with our advanced search
         </p>
 
-        <div className="flex justify-end items-center">
-          {isPending ? (
-            <span className="h-9" />
-          ) : session ? (
-            <UserDropdown />
-          ) : (
-            <AuthBtns />
-          )}
+        <div className="flex items-center justify-end">
+          {user ? <UserDropdown user={user} /> : <AuthBtns />}
         </div>
       </header>
     </div>

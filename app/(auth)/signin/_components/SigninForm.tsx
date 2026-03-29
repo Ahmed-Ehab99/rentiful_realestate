@@ -89,6 +89,7 @@ const SigninForm = () => {
                     placeholder="Enter your email"
                     type="email"
                     autoFocus
+                    autoComplete="email"
                     {...field}
                   />
                 </FormControl>

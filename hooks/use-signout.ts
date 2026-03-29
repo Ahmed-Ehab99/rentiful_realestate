@@ -12,6 +12,7 @@ export const useSignout = () => {
           onSuccess: () => {
             toast.success("Signed out successfully!");
             router.replace("/");
+            router.refresh();
           },
         },
       });

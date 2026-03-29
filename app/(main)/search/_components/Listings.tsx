@@ -1,10 +1,9 @@
-import { auth } from "@/lib/auth";
+import { getServerSession } from "@/app/data/get-session";
+import PropertyCard from "@/components/PropertyCard";
 import { getProperties } from "@/lib/queries/property.queries";
 import { getTenant } from "@/lib/queries/tenant.queries";
 import { parsePropertyFilters } from "@/lib/validations/property.validations";
 import { SearchX } from "lucide-react";
-import { headers } from "next/headers";
-import PropertyCard from "../../../../components/PropertyCard";
 import PropertyCardCompact from "./PropertyCardCompact";
 
 interface ListingsProps {
@@ -13,7 +12,7 @@ interface ListingsProps {
 }
 
 const Listings = async ({ searchParams, viewMode }: ListingsProps) => {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getServerSession();
 
   const [properties, tenant] = await Promise.all([
     getProperties(parsePropertyFilters(searchParams)),

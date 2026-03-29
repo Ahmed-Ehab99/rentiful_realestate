@@ -48,7 +48,7 @@ const PropertyCard = ({
   return (
     <div className="mb-5 w-full overflow-hidden rounded-xl bg-white shadow-lg">
       <div className="relative">
-        <div className="relative h-48 w-full">
+        <div className="h-48 w-full">
           <Image
             src={property?.photoUrls?.[0]}
             alt={property.name}

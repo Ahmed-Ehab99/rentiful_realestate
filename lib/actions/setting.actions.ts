@@ -1,31 +1,38 @@
 "use server";
 
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import { prisma } from "@/lib/db";
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { unauthorized } from "next/navigation";
 
 export async function getSettingsData() {
-  const user = await getAuthUser();
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
 
   if (user.role === "manager") {
     const manager = await prisma.manager.findUnique({
       where: { userId: user.id },
     });
-    if (!manager) redirect("/signup");
+    if (!manager) unauthorized();
     return { userType: "manager" as const, data: manager };
   }
 
   const tenant = await prisma.tenant.findUnique({
     where: { userId: user.id },
   });
-  if (!tenant) redirect("/signup");
+  if (!tenant) unauthorized();
   return { userType: "tenant" as const, data: tenant };
 }
 
 export async function updateSettings(formData: SettingsFormData) {
-  const user = await getAuthUser();
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
+
   try {
     const result = settingsSchema.safeParse(formData);
     if (!result.success) {

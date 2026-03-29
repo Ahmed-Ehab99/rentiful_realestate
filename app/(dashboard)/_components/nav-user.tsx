@@ -1,39 +1,23 @@
-"use client";
-
-import {
-  IconDotsVertical,
-  IconHome,
-  IconLogout,
-  IconSearch,
-} from "@tabler/icons-react";
-
+import { getServerSession } from "@/app/data/get-session";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useSignout } from "@/hooks/use-signout";
-import { authClient } from "@/lib/auth-client";
-import Link from "next/link";
+import { IconDotsVertical } from "@tabler/icons-react";
+import { unauthorized } from "next/navigation";
+import NavUserMenu from "./NavUserMenu";
 
-export function NavUser() {
-  const { isMobile } = useSidebar();
-  const handleSignout = useSignout();
-  const { data: session, isPending } = authClient.useSession();
+export async function NavUser() {
+  const session = await getServerSession();
+  const user = session?.user;
 
-  if (isPending) return <Skeleton className="h-12 w-full" />;
+  if (!user) unauthorized();
 
   return (
     <SidebarMenu>
@@ -46,86 +30,29 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={
-                    session?.user.image ??
-                    `https://avatar.vercel.sh/${session?.user.email}`
-                  }
-                  alt={session?.user.name ?? "User Avatar"}
+                  src={user.image ?? `https://avatar.vercel.sh/${user.email}`}
+                  alt={user.name ?? "User Avatar"}
                 />
                 <AvatarFallback className="rounded-lg">
-                  {session?.user.name && session?.user.name.length > 0
-                    ? session?.user.name[0].toUpperCase()
-                    : session?.user.email[0].toUpperCase()}
+                  {user.name && user.name.length > 0
+                    ? user.name[0].toUpperCase()
+                    : user.email[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {session?.user.name && session?.user.name.length > 0
-                    ? session?.user.name
-                    : session?.user.email.split("@")[0]}
+                  {user.name && user.name.length > 0
+                    ? user.name
+                    : user.email.split("@")[0]}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {session?.user.email}
+                  {user.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage
-                    src={
-                      session?.user.image ??
-                      `https://avatar.vercel.sh/${session?.user.email}`
-                    }
-                    alt={session?.user.name ?? "User Avatar"}
-                  />
-                  <AvatarFallback className="rounded-lg">
-                    {session?.user.name && session?.user.name.length > 0
-                      ? session?.user.name[0].toUpperCase()
-                      : session?.user.email[0].toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    {session?.user.name && session?.user.name.length > 0
-                      ? session?.user.name
-                      : session?.user.email.split("@")[0]}
-                  </span>
-                  <span className="text-muted-foreground truncate text-xs">
-                    {session?.user.email}
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/">
-                  <IconHome />
-                  Home
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/search">
-                  <IconSearch />
-                  Search
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignout}>
-              <IconLogout />
-              Sign out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
+          <NavUserMenu user={user} />
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>

@@ -1,81 +1,18 @@
-"use client";
+import { getServerSession } from "@/app/data/get-session";
+import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
+import { unauthorized } from "next/navigation";
+import NavMainMenu from "./NavMainMenu";
 
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/auth-client";
-import { IconBuilding, IconFileText, IconSettings } from "@tabler/icons-react";
-import { FileText, Heart, Home, Settings } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+export async function NavMain() {
+  const session = await getServerSession();
+  const user = session?.user;
 
-export function NavMain() {
-  const pathname = usePathname();
-  const { data: session, isPending } = authClient.useSession();
-  const userType = session?.user.role;
-  const navItems =
-    userType === "manager"
-      ? [
-          {
-            icon: IconBuilding,
-            label: "Properties",
-            href: "/managers/properties",
-          },
-          {
-            icon: IconFileText,
-            label: "Applications",
-            href: "/managers/applications",
-          },
-          { icon: IconSettings, label: "Settings", href: "/managers/settings" },
-        ]
-      : [
-          { icon: Heart, label: "Favorites", href: "/tenants/favorites" },
-          {
-            icon: FileText,
-            label: "Applications",
-            href: "/tenants/applications",
-          },
-          { icon: Home, label: "Residences", href: "/tenants/residences" },
-          { icon: Settings, label: "Settings", href: "/tenants/settings" },
-        ];
+  if (!user) unauthorized();
 
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          {isPending ? (
-            <Skeleton className="h-60 w-full" />
-          ) : (
-            navItems.map((item) => {
-              const isActive = pathname === item.href;
-
-              return (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip={item.label}
-                    isActive={isActive}
-                  >
-                    <Link
-                      href={item.href}
-                      className="flex cursor-pointer items-center gap-4 p-1.5!"
-                    >
-                      {item.icon && (
-                        <item.icon className="group-data-[collapsible=icon]:ml-1" />
-                      )}
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })
-          )}
-        </SidebarMenu>
+        <NavMainMenu user={user} />
       </SidebarGroupContent>
     </SidebarGroup>
   );

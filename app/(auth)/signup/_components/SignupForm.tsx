@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
@@ -42,10 +41,6 @@ const signupSchema = z
     confirmPassword: z
       .string()
       .min(1, { message: "Please confirm your password" }),
-
-    role: z.enum(["tenant", "manager"], {
-      message: "Please select your role",
-    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -65,7 +60,6 @@ const SignupForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      role: undefined,
     },
   });
   const { isDirty } = form.formState;
@@ -77,7 +71,6 @@ const SignupForm = () => {
         username: values.username.trim(),
         email: values.email.trim(),
         password: values.password,
-        role: values.role,
       });
 
       if (error) {
@@ -208,52 +201,6 @@ const SignupForm = () => {
                       )}
                     </Button>
                   </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Role */}
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Role</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col gap-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <RadioGroupItem
-                        value="tenant"
-                        id="tenant"
-                        className="cursor-pointer"
-                      />
-                      <FormLabel
-                        htmlFor="tenant"
-                        className="cursor-pointer font-normal"
-                      >
-                        Tenant
-                      </FormLabel>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <RadioGroupItem
-                        value="manager"
-                        id="manager"
-                        className="cursor-pointer"
-                      />
-                      <FormLabel
-                        htmlFor="manager"
-                        className="cursor-pointer font-normal"
-                      >
-                        Manager
-                      </FormLabel>
-                    </div>
-                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>

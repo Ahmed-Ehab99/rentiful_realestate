@@ -4,8 +4,55 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import { Loader2, Search } from "lucide-react";
 
 const HeroSection = () => {
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleHeroSearch = useCallback(async () => {
+    const query = searchInput.trim();
+
+    setIsSearching(true);
+    try {
+      // Empty search => go to the full listings page (no geo filter).
+      if (!query) {
+        router.push("/search");
+        return;
+      }
+
+      // Reuses the existing app geocoding proxy to get lng/lat.
+      const res = await fetch(
+        `/api/geocode?${new URLSearchParams({ q: query })}`,
+      );
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data?.error ?? "Failed to search location");
+        return;
+      }
+
+      if (data.lat !== null && data.lng !== null) {
+        const params = new URLSearchParams();
+        params.set("location", query);
+        params.set("coordinates", `${data.lng},${data.lat}`);
+        router.push(`/search?${params.toString()}`);
+      } else {
+        // Geocode returned no coords => clear geo filter.
+        router.push("/search");
+      }
+    } catch (err) {
+      toast.error("Failed to search location");
+      console.error("Hero search error:", err);
+    } finally {
+      setIsSearching(false);
+    }
+  }, [router, searchInput]);
+
   return (
     <div className="relative h-screen">
       <Image
@@ -37,17 +84,27 @@ const HeroSection = () => {
           <div className="flex justify-center">
             <Input
               type="text"
-              value="search query"
-              onChange={() => {}}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleHeroSearch()}
               placeholder="Search by city, neighborhood or address"
               className="h-12 w-full max-w-lg rounded-none rounded-l-xl border-none bg-white"
+              disabled={isSearching}
             />
 
             <Button
-              onClick={() => {}}
+              onClick={handleHeroSearch}
+              disabled={isSearching}
               className="bg-secondary-500 hover:bg-secondary-600 h-12 rounded-none rounded-r-xl border-none text-white"
             >
-              Search
+              <span className="flex items-center justify-center gap-2">
+                {isSearching ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Search className="h-4 w-4" />
+                )}
+                <span>Search</span>
+              </span>
             </Button>
           </div>
         </div>

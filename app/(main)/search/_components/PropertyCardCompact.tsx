@@ -89,7 +89,7 @@ const PropertyCardCompact = ({
             </h2>
             {showFavoriteButton && (
               <button
-                className="rounded-full bg-white p-1 disabled:opacity-50"
+                className="cursor-pointer rounded-full bg-white p-1 disabled:opacity-50"
                 onClick={handleFavoriteToggle}
                 disabled={isPending}
               >

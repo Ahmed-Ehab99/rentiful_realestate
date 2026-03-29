@@ -1,15 +1,21 @@
 "use client";
 
+import { ApplicationsType } from "@/lib/queries/application.queries";
 import { Mail, MapPin, PhoneCall } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+
+interface ApplicationCardProps {
+  application: ApplicationsType[0];
+  userType: "manager" | "renter";
+  children: React.ReactNode;
+}
 
 const ApplicationCard = ({
   application,
   userType,
   children,
 }: ApplicationCardProps) => {
-  console.log(application);
   const [imgSrc, setImgSrc] = useState(
     application.property.photoUrls?.[0] || "/placeholder.jpg",
   );

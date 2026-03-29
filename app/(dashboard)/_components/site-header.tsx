@@ -1,16 +1,15 @@
-"use client";
-
+import { getServerSession } from "@/app/data/get-session";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/auth-client";
 import { Plus, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { unauthorized } from "next/navigation";
 
-export function SiteHeader() {
-  const router = useRouter();
-  const { data: session, isPending } = authClient.useSession();
+export async function SiteHeader() {
+  const session = await getServerSession();
+  const user = session?.user;
+  if (!user) unauthorized();
 
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
@@ -20,32 +19,18 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        {isPending ? (
-          <Skeleton className="h-6 w-28" />
-        ) : (
-          <h1 className="text-base font-medium">
-            {session?.user.role === "manager" ? (
-              <>Manager View</>
-            ) : (
-              <>Renter View</>
-            )}
-          </h1>
-        )}
-        {isPending ? (
-          <Skeleton className="ml-auto h-9 w-43.5" />
-        ) : (
-          <Button
-            variant="secondary"
-            className="bg-primary-50 text-primary-700 hover:bg-secondary-500 hover:text-primary-50 ml-auto"
-            onClick={() =>
-              router.push(
-                session?.user.role === "manager"
-                  ? "/managers/newProperty"
-                  : "/search",
-              )
-            }
+        <h1 className="text-base font-medium">
+          {user.role === "manager" ? <>Manager View</> : <>Renter View</>}
+        </h1>
+        <Button
+          variant="secondary"
+          className="bg-primary-50 text-primary-700 hover:bg-secondary-500 hover:text-primary-50 ml-auto"
+          asChild
+        >
+          <Link
+            href={user.role === "manager" ? "/managers/newProperty" : "/search"}
           >
-            {session?.user.role === "manager" ? (
+            {user.role === "manager" ? (
               <>
                 <Plus className="h-4 w-4" />
                 <span className="ml-2 hidden md:block">Add New Property</span>
@@ -56,8 +41,8 @@ export function SiteHeader() {
                 <span className="ml-2 hidden md:block">Search Properties</span>
               </>
             )}
-          </Button>
-        )}
+          </Link>
+        </Button>
       </div>
     </header>
   );

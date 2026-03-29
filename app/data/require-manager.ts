@@ -1,21 +1,13 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { forbidden, unauthorized } from "next/navigation";
 import { cache } from "react";
 import "server-only";
+import { getServerSession } from "./get-session";
 
 export const requireManager = cache(async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getServerSession();
 
-  if (!session) {
-    return redirect("/signup");
-  }
-
-  if (session.user.role !== "manager") {
-    return redirect("/signup");
-  }
+  if (!session) unauthorized();
+  if (session.user.role !== "manager") forbidden();
 
   return session.user;
 });

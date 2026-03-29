@@ -1,12 +1,18 @@
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import EmptyState from "@/components/EmptyState";
 import PropertyCard from "@/components/PropertyCard";
 import { getManagerProperties } from "@/lib/queries/manager.queries";
 import { House } from "lucide-react";
 import Header from "../../_components/Header";
+import { forbidden, unauthorized } from "next/navigation";
 
 const PropertiesPage = async () => {
-  const user = await getAuthUser();
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
+  if (user.role !== "manager") forbidden();
+
   const managerProperties = await getManagerProperties(user.id);
 
   return (

@@ -1,10 +1,11 @@
-import { getAuthUser } from "@/app/data/get-auth-user";
+import { getServerSession } from "@/app/data/get-session";
 import { getProperty } from "@/lib/queries/property.queries";
 import ImagePreviews from "./_components/ImagePreviews";
 import PropertyDetails from "./_components/PropertyDetails";
 import PropertyLocation from "./_components/PropertyLocation";
 import PropertyOverview from "./_components/PropertyOverview";
 import TenantApplication from "./_components/TenantApplication";
+import { unauthorized } from "next/navigation";
 
 const PropertyDetailsPage = async ({
   params,
@@ -12,8 +13,12 @@ const PropertyDetailsPage = async ({
   params: Promise<{ id: number }>;
 }) => {
   const { id } = await params;
+  const session = await getServerSession();
+  const user = session?.user;
+
+  if (!user) unauthorized();
+
   const property = await getProperty(Number(id));
-  const user = await getAuthUser();
 
   return (
     <>

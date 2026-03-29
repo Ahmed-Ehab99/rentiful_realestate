@@ -1,27 +1,27 @@
 import {
-  Wifi,
-  Waves,
-  Dumbbell,
-  Car,
-  PawPrint,
-  Tv,
-  Thermometer,
-  Cigarette,
-  Cable,
-  Maximize,
   Bath,
+  Building,
+  Bus,
+  Cable,
+  Car,
+  Castle,
+  Cigarette,
+  Dumbbell,
+  Hammer,
+  Home,
+  LucideIcon,
+  Maximize,
+  Mountain,
+  PawPrint,
   Phone,
   Sprout,
-  Hammer,
-  Bus,
-  Mountain,
-  VolumeX,
-  Home,
-  Warehouse,
-  Building,
-  Castle,
+  Thermometer,
   Trees,
-  LucideIcon,
+  Tv,
+  VolumeX,
+  Warehouse,
+  Waves,
+  Wifi,
 } from "lucide-react";
 
 export enum AmenityEnum {
@@ -111,28 +111,5 @@ export const PropertyTypeIcons: Record<PropertyTypeEnum, LucideIcon> = {
 };
 
 // Add this constant at the end of the file
-export const NAVBAR_HEIGHT = 52; // in pixels
 export const IMAGE_MAX_SIZE = 5 * 1024 * 1024; // 5MB
 export const VIDEO_MAX_SIZE = 50 * 1024 * 1024; // 50MB
-
-// Test users for development
-export const testUsers = {
-  tenant: {
-    username: "Carol White",
-    userId: "us-east-2:76543210-90ab-cdef-1234-567890abcdef",
-    signInDetails: {
-      loginId: "carol.white@example.com",
-      authFlowType: "USER_SRP_AUTH",
-    },
-  },
-  tenantRole: "tenant",
-  manager: {
-    username: "John Smith",
-    userId: "us-east-2:12345678-90ab-cdef-1234-567890abcdef",
-    signInDetails: {
-      loginId: "john.smith@example.com",
-      authFlowType: "USER_SRP_AUTH",
-    },
-  },
-  managerRole: "manager",
-};

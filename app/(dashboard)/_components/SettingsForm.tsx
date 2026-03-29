@@ -12,6 +12,11 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+interface SettingsFormProps {
+  initialData: SettingsFormData;
+  userType: "manager" | "tenant";
+}
+
 const SettingsForm = ({ initialData, userType }: SettingsFormProps) => {
   const [editMode, setEditMode] = useState(false);
   const [isPending, startTransition] = useTransition();

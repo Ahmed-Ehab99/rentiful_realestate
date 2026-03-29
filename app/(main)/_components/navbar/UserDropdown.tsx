@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,37 +10,48 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSignout } from "@/hooks/use-signout";
-import { authClient } from "@/lib/auth-client";
-import { LayoutDashboard, LogOut, Search, Settings } from "lucide-react";
+import { User } from "@/lib/auth-client";
+import {
+  LayoutDashboard,
+  LogOut,
+  Search,
+  Settings,
+  UserIcon,
+} from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const UserDropdown = () => {
-  const { data: session } = authClient.useSession();
+const UserDropdown = ({ user }: { user: User }) => {
   const router = useRouter();
   const handleSignout = useSignout();
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="cursor-pointer">
-        <Avatar className="size-9">
-          <AvatarImage
-            src={session?.user.image || ""}
-            alt={session?.user.name}
-          />
-          <AvatarFallback className="bg-primary-600 text-primary-50">
-            {session?.user.name[0].toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
+        <Button variant="outline">
+          {user.image ? (
+            <Image
+              src={user.image}
+              alt={user.name}
+              width={16}
+              height={16}
+              className="rounded-full object-cover"
+            />
+          ) : (
+            <UserIcon className="text-foreground" />
+          )}
+          <span className="text-foreground max-w-48 truncate">
+            {user.username || user.name}
+          </span>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
-            {session?.user.name && session?.user.name.length > 0
-              ? session?.user.name
-              : session?.user.email.split("@")[0]}
+            {user.username || user.name}
           </span>
           <span className="text-muted-foreground truncate text-xs font-normal">
-            {session?.user.email}
+            {user.email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -48,7 +59,7 @@ const UserDropdown = () => {
           className="cursor-pointer font-bold"
           onClick={() =>
             router.push(
-              session?.user.role === "manager"
+              user.role === "manager"
                 ? "/managers/properties"
                 : "/tenants/favorites",
               { scroll: false },
@@ -70,7 +81,7 @@ const UserDropdown = () => {
         <DropdownMenuItem
           className="cursor-pointer"
           onClick={() =>
-            router.push(`/${session?.user.role}s/settings`, {
+            router.push(`/${user.role}s/settings`, {
               scroll: false,
             })
           }

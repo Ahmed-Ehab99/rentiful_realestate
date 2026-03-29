@@ -9,6 +9,7 @@ import { createProperty } from "@/lib/actions/property.actions";
 import { User } from "@/lib/auth-client";
 import { AmenityEnum, HighlightEnum, PropertyTypeEnum } from "@/lib/constants";
 import { PropertyFormData, propertyFormSchema } from "@/lib/schemas";
+import { tryCatch } from "@/lib/try-catch";
 import { constructUrl } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -79,7 +80,17 @@ const NewPropertyForm = ({ user }: { user: User }) => {
         });
 
         formData.append("managerUserId", user.id);
-        await createProperty(formData);
+
+        const { error } = await tryCatch(createProperty(formData));
+
+        if (error) {
+          toast.error(
+            error instanceof Error
+              ? error.message
+              : "Failed to create property",
+          );
+          return;
+        }
 
         toast.success("Property created successfully!");
         form.reset(defaultValues);
