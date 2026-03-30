@@ -1,4 +1,6 @@
 import { getServerSession } from "@/app/data/get-session";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AuthBtns from "./AuthBtns";
@@ -40,6 +42,15 @@ const Navbar = async () => {
         </p>
 
         <div className="flex items-center justify-end">
+          <Button
+            asChild
+            size="icon"
+            className="bg-secondary-500 hover:bg-secondary-600 mr-2 rounded-lg text-white"
+          >
+            <Link href="/search">
+              <Search />
+            </Link>
+          </Button>
           {user ? <UserDropdown user={user} /> : <AuthBtns />}
         </div>
       </header>

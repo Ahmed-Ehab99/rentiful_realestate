@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { Loader2, Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Search } from "lucide-react";
 
 const HeroSection = () => {
   const router = useRouter();
@@ -61,6 +61,7 @@ const HeroSection = () => {
         fill
         className="object-cover object-center"
         priority
+        loading="eager"
       />
 
       <div className="absolute inset-0 bg-black/60" />
