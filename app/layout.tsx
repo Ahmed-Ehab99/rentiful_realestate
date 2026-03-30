@@ -16,9 +16,6 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentiful.com",
-  ),
   title: {
     default: "Rentiful | Find Your Perfect Rental Home",
     template: "%s | Rentiful",
@@ -41,7 +38,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://rentiful.com",
     siteName: "Rentiful",
     title: "Rentiful | Find Your Perfect Rental Home",
     description:
