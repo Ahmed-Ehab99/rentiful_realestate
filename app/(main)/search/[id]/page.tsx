@@ -1,16 +1,28 @@
 import { getServerSession } from "@/app/data/get-session";
 import { getProperty } from "@/lib/queries/property.queries";
+import { createPropertyListingMetadata } from "@/lib/seo/page-metadata";
 import ImagePreviews from "./_components/ImagePreviews";
 import PropertyDetails from "./_components/PropertyDetails";
 import PropertyLocation from "./_components/PropertyLocation";
 import PropertyOverview from "./_components/PropertyOverview";
 import TenantApplication from "./_components/TenantApplication";
+import type { Metadata } from "next";
 import { unauthorized } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const property = await getProperty(Number(id));
+  return createPropertyListingMetadata(property);
+}
 
 const PropertyDetailsPage = async ({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
   const session = await getServerSession();

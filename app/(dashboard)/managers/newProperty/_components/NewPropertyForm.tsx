@@ -106,7 +106,7 @@ const NewPropertyForm = ({ user }: { user: User }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 p-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
         <div>
           <h2 className="mb-4 text-lg font-semibold">Basic Information</h2>
           <div className="space-y-4">

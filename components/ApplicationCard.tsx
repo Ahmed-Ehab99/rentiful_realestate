@@ -1,9 +1,6 @@
-"use client";
-
 import { ApplicationsType } from "@/lib/queries/application.queries";
 import { Mail, MapPin, PhoneCall } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 interface ApplicationCardProps {
   application: ApplicationsType[0];
@@ -16,10 +13,6 @@ const ApplicationCard = ({
   userType,
   children,
 }: ApplicationCardProps) => {
-  const [imgSrc, setImgSrc] = useState(
-    application.property.photoUrls?.[0] || "/placeholder.jpg",
-  );
-
   const statusColor =
     application.status === "Approved"
       ? "bg-green-500"
@@ -36,13 +29,12 @@ const ApplicationCard = ({
         {/* Property Info Section */}
         <div className="flex w-full flex-col gap-5 lg:w-auto lg:flex-row">
           <Image
-            src={imgSrc}
+            src={application.property.photoUrls?.[0] || "/placeholder.jpg"}
             alt={application.property.name}
             width={200}
             height={150}
             className="h-[150px] w-full rounded-xl object-cover lg:w-[200px]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgSrc("/placeholder.jpg")}
           />
           <div className="flex flex-col justify-between">
             <div>

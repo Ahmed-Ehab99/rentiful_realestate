@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { Prisma } from "@/prisma/generated/prisma/client";
 import { Amenity, PropertyType } from "@/prisma/generated/prisma/enums";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 export type PropertyFilters = {
   favoriteIds?: number[];
@@ -130,9 +131,9 @@ export type PropertiesType = Awaited<ReturnType<typeof getProperties>>;
 
 /**
  * getProperty → was GET /properties/:id
- * Returns null if not found — caller uses notFound() from next/navigation.
+ * Cached per request so `generateMetadata` and the page share one query.
  */
-export async function getProperty(id: number) {
+export const getProperty = cache(async (id: number) => {
   const property = await prisma.property.findUnique({
     where: { id },
     include: { location: true },
@@ -143,5 +144,5 @@ export async function getProperty(id: number) {
   }
 
   return property;
-}
+});
 export type PropertySingularType = Awaited<ReturnType<typeof getProperty>>;

@@ -4,9 +4,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { createPageMetadata } from "@/lib/seo/page-metadata";
 import Image from "next/image";
 import Link from "next/link";
 import SigninForm from "./_components/SigninForm";
+
+export const metadata = createPageMetadata({
+  title: "Sign in",
+  description:
+    "Sign in to your Rentiful account to search rentals, submit applications, and manage your lease or property listings.",
+  noIndex: true,
+});
 
 const SigninPage = () => {
   return (

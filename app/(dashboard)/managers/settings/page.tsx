@@ -1,5 +1,13 @@
 import { getSettingsData } from "@/lib/actions/setting.actions";
+import { createPageMetadata } from "@/lib/seo/page-metadata";
 import SettingsForm from "../../_components/SettingsForm";
+
+export const metadata = createPageMetadata({
+  title: "Manager settings",
+  description:
+    "Update your Rentiful manager profile, contact information, and account preferences.",
+  noIndex: true,
+});
 
 const SettingsPage = async () => {
   const { userType, data } = await getSettingsData();

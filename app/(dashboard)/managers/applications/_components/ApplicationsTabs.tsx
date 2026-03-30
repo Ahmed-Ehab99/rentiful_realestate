@@ -1,6 +1,7 @@
 "use client";
 
 import ApplicationCard from "@/components/ApplicationCard";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { updateApplicationStatus } from "@/lib/actions/application.actions";
@@ -184,3 +185,16 @@ const ApplicationsTabs = ({
 };
 
 export default ApplicationsTabs;
+
+export const ApplicationTabsSkeleton = () => {
+  return (
+    <div className="my-5 flex w-full flex-col gap-2">
+      <Skeleton className="h-9 w-full" />
+      <div className="mt-5">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <Skeleton key={index} className="mb-4 h-85.5 w-full" />
+        ))}
+      </div>
+    </div>
+  );
+};

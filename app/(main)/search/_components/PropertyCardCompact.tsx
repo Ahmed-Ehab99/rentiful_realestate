@@ -23,9 +23,6 @@ const PropertyCardCompact = ({
   showFavoriteButton = true,
   propertyLink,
 }: PropertyCardCompactProps) => {
-  const [imgSrc, setImgSrc] = useState(
-    property?.photoUrls?.[0] || "/placeholder.jpg",
-  );
   const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
   const [isPending, startTransition] = useTransition();
 
@@ -50,12 +47,11 @@ const PropertyCardCompact = ({
     <div className="mb-5 flex h-40 w-full overflow-hidden rounded-xl bg-white shadow-lg last:mb-0">
       <div className="relative w-1/3">
         <Image
-          src={imgSrc}
+          src={property?.photoUrls?.[0] || "/placeholder.jpg"}
           alt={property.name}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          onError={() => setImgSrc("/placeholder.jpg")}
         />
         <div className="absolute bottom-2 left-2 flex gap-1">
           {property.isPetsAllowed && (

@@ -1,10 +1,22 @@
 import { getServerSession } from "@/app/data/get-session";
 import { getLeasePayments, getLeases } from "@/lib/queries/lease.queries";
 import { getProperty } from "@/lib/queries/property.queries";
+import { createResidenceMetadata } from "@/lib/seo/page-metadata";
 import BillingHistory from "./_components/BillingHistory";
 import PaymentMethod from "./_components/PaymentMethod";
 import ResidenceCard from "./_components/ResidenceCard";
+import type { Metadata } from "next";
 import { forbidden, unauthorized } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const property = await getProperty(Number(id));
+  return createResidenceMetadata(property);
+}
 
 const ResidenceDetailsPage = async ({
   params,

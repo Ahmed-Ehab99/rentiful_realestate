@@ -1,9 +1,16 @@
 import { getProperties } from "@/lib/queries/property.queries";
+import { createPageMetadata } from "@/lib/seo/page-metadata";
 import { parsePropertyFilters } from "@/lib/validations/property.validations";
 import FiltersBar from "./_components/FiltersBar";
 import FiltersFull from "./_components/FiltersFull";
 import Listings from "./_components/Listings";
 import PropertyMap from "./_components/PropertyMap";
+
+export const metadata = createPageMetadata({
+  title: "Search Rentals",
+  description:
+    "Search apartments, houses, and condos for rent on an interactive map. Filter by price, bedrooms, amenities, and location to find your next home on Rentiful.",
+});
 
 const SearchPage = async ({
   searchParams,
