@@ -25,6 +25,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Link
                 href="/"
                 scroll={false}
+                prefetch
                 className="flex cursor-pointer items-center gap-3"
               >
                 <Image

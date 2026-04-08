@@ -1,7 +1,6 @@
 import Header from "@/app/(dashboard)/_components/Header";
 import { getServerSession } from "@/app/data/get-session";
 import { Button } from "@/components/ui/button";
-import { createManagerPropertyMetadata } from "@/lib/seo/page-metadata";
 import {
   Table,
   TableBody,
@@ -11,10 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getLeasePayments, getLeases } from "@/lib/queries/lease.queries";
-import { getProperty } from "@/lib/queries/property.queries";
+import { getProperties, getProperty } from "@/lib/queries/property.queries";
+import { createManagerPropertyMetadata } from "@/lib/seo/page-metadata";
 import { ArrowDownToLine, Check, Download } from "lucide-react";
-import Image from "next/image";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { forbidden, unauthorized } from "next/navigation";
 
 export async function generateMetadata({
@@ -25,6 +25,13 @@ export async function generateMetadata({
   const { id } = await params;
   const property = await getProperty(Number(id));
   return createManagerPropertyMetadata(property);
+}
+
+export async function generateStaticParams() {
+  const properties = await getProperties();
+  return properties.map((property) => ({
+    id: String(property.id),
+  }));
 }
 
 const PropertyTenantsPage = async ({

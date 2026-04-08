@@ -1,15 +1,10 @@
-import { getServerSession } from "@/app/data/get-session";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import AuthBtns from "./AuthBtns";
-import UserDropdown from "./UserDropdown";
+import NavbarAuth from "./NavbarAuth";
 
-const Navbar = async () => {
-  const session = await getServerSession();
-  const user = session?.user;
-
+const Navbar = () => {
   return (
     <div className={`fixed top-0 left-0 z-50 h-15 w-full shadow-xl`}>
       <header className="bg-primary-700 grid w-full grid-cols-3 items-center justify-between px-8 py-3 text-white">
@@ -17,6 +12,7 @@ const Navbar = async () => {
           <Link
             href="/"
             scroll={false}
+            prefetch
             className="hover:text-primary-300 cursor-pointer"
           >
             <div className="flex items-center gap-3">
@@ -44,14 +40,15 @@ const Navbar = async () => {
         <div className="flex items-center justify-end">
           <Button
             asChild
+            title="Search"
             size="icon"
             className="bg-secondary-500 hover:bg-secondary-600 mr-2 rounded-lg text-white"
           >
-            <Link href="/search">
+            <Link href="/search" prefetch>
               <Search />
             </Link>
           </Button>
-          {user ? <UserDropdown user={user} /> : <AuthBtns />}
+          <NavbarAuth />
         </div>
       </header>
     </div>

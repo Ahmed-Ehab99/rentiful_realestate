@@ -1,13 +1,13 @@
 import { getServerSession } from "@/app/data/get-session";
-import { getProperty } from "@/lib/queries/property.queries";
+import { getProperties, getProperty } from "@/lib/queries/property.queries";
 import { createPropertyListingMetadata } from "@/lib/seo/page-metadata";
+import type { Metadata } from "next";
+import { unauthorized } from "next/navigation";
 import ImagePreviews from "./_components/ImagePreviews";
 import PropertyDetails from "./_components/PropertyDetails";
 import PropertyLocation from "./_components/PropertyLocation";
 import PropertyOverview from "./_components/PropertyOverview";
 import TenantApplication from "./_components/TenantApplication";
-import type { Metadata } from "next";
-import { unauthorized } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -17,6 +17,13 @@ export async function generateMetadata({
   const { id } = await params;
   const property = await getProperty(Number(id));
   return createPropertyListingMetadata(property);
+}
+
+export async function generateStaticParams() {
+  const properties = await getProperties();
+  return properties.map((property) => ({
+    id: String(property.id),
+  }));
 }
 
 const PropertyDetailsPage = async ({

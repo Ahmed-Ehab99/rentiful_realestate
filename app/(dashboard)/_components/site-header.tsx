@@ -29,6 +29,7 @@ export async function SiteHeader() {
         >
           <Link
             href={user.role === "manager" ? "/managers/newProperty" : "/search"}
+            prefetch
           >
             {user.role === "manager" ? (
               <>

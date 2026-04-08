@@ -76,6 +76,7 @@ const PropertyCardCompact = ({
                   href={propertyLink}
                   className="hover:underline"
                   scroll={false}
+                  prefetch
                 >
                   {property.name}
                 </Link>

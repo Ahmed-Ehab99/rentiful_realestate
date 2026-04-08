@@ -53,13 +53,13 @@ const NavUserMenu = ({ user }: { user: User }) => {
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem asChild>
-          <Link href="/">
+          <Link href="/" prefetch>
             <IconHome />
             Home
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/search">
+          <Link href="/search" prefetch>
             <IconSearch />
             Search
           </Link>

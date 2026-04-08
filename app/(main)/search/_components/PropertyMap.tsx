@@ -94,6 +94,7 @@ const PropertyMap = ({ properties }: { properties: PropertiesType }) => {
                   <div className="flex items-start justify-between gap-2">
                     <Link
                       href={`/properties/${property.id}`}
+                      prefetch
                       target="_blank"
                       className="hover:text-primary-700 text-sm leading-tight font-semibold text-gray-900 hover:underline"
                     >

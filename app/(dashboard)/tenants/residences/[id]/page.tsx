@@ -1,12 +1,12 @@
 import { getServerSession } from "@/app/data/get-session";
 import { getLeasePayments, getLeases } from "@/lib/queries/lease.queries";
-import { getProperty } from "@/lib/queries/property.queries";
+import { getProperties, getProperty } from "@/lib/queries/property.queries";
 import { createResidenceMetadata } from "@/lib/seo/page-metadata";
+import type { Metadata } from "next";
+import { forbidden, unauthorized } from "next/navigation";
 import BillingHistory from "./_components/BillingHistory";
 import PaymentMethod from "./_components/PaymentMethod";
 import ResidenceCard from "./_components/ResidenceCard";
-import type { Metadata } from "next";
-import { forbidden, unauthorized } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -16,6 +16,13 @@ export async function generateMetadata({
   const { id } = await params;
   const property = await getProperty(Number(id));
   return createResidenceMetadata(property);
+}
+
+export async function generateStaticParams() {
+  const properties = await getProperties();
+  return properties.map((property) => ({
+    id: String(property.id),
+  }));
 }
 
 const ResidenceDetailsPage = async ({

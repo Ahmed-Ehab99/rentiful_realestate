@@ -62,6 +62,7 @@ const FiltersBar = () => {
           />
           <Button
             onClick={handleLocationSearch}
+            title="Search"
             disabled={isSearching}
             className="border-l-none border-primary-400 hover:bg-primary-700 hover:text-primary-50 rounded-l-none rounded-r-xl border shadow-none"
           >
@@ -79,7 +80,10 @@ const FiltersBar = () => {
             value={priceRange[0]?.toString() ?? "any"}
             onValueChange={(value) => handlePriceChange(value, true)}
           >
-            <SelectTrigger className="border-primary-400 w-fit rounded-xl">
+            <SelectTrigger
+              className="border-primary-400 w-fit rounded-xl"
+              title="Select Min Price"
+            >
               <SelectValue>{formatPriceValue(priceRange[0], true)}</SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white" position="popper">
@@ -96,7 +100,10 @@ const FiltersBar = () => {
             value={priceRange[1]?.toString() ?? "any"}
             onValueChange={(value) => handlePriceChange(value, false)}
           >
-            <SelectTrigger className="border-primary-400 w-fit rounded-xl">
+            <SelectTrigger
+              className="border-primary-400 w-fit rounded-xl"
+              title="Select Max Price"
+            >
               <SelectValue>
                 {formatPriceValue(priceRange[1], false)}
               </SelectValue>
@@ -118,7 +125,10 @@ const FiltersBar = () => {
             value={beds}
             onValueChange={(value) => setFilter("beds", value)}
           >
-            <SelectTrigger className="border-primary-400 w-fit rounded-xl">
+            <SelectTrigger
+              className="border-primary-400 w-fit rounded-xl"
+              title="Select No. Beds"
+            >
               <SelectValue placeholder="Beds" />
             </SelectTrigger>
             <SelectContent className="bg-white" position="popper">
@@ -135,7 +145,10 @@ const FiltersBar = () => {
             value={baths}
             onValueChange={(value) => setFilter("baths", value)}
           >
-            <SelectTrigger className="border-primary-400 w-fit rounded-xl">
+            <SelectTrigger
+              className="border-primary-400 w-fit rounded-xl"
+              title="Select No. Baths"
+            >
               <SelectValue placeholder="Baths" />
             </SelectTrigger>
             <SelectContent className="bg-white" position="popper">
@@ -152,7 +165,10 @@ const FiltersBar = () => {
           value={propertyType}
           onValueChange={(value) => setFilter("propertyType", value)}
         >
-          <SelectTrigger className="border-primary-400 w-fit rounded-xl">
+          <SelectTrigger
+            className="border-primary-400 w-fit rounded-xl"
+            title="Select Property Type"
+          >
             <SelectValue placeholder="Home Type" />
           </SelectTrigger>
           <SelectContent className="bg-white" position="popper">
@@ -174,6 +190,7 @@ const FiltersBar = () => {
         <div className="flex rounded-xl border">
           <Button
             variant="ghost"
+            title="List Mode"
             className={cn(
               "hover:bg-primary-600 hover:text-primary-50 rounded-none rounded-l-xl px-3 py-1",
               viewMode === "list" && "bg-primary-700 text-primary-50",
@@ -184,6 +201,7 @@ const FiltersBar = () => {
           </Button>
           <Button
             variant="ghost"
+            title="Grid Mode"
             className={cn(
               "hover:bg-primary-600 hover:text-primary-50 rounded-none rounded-r-xl px-3 py-1",
               viewMode === "grid" && "bg-primary-700 text-primary-50",

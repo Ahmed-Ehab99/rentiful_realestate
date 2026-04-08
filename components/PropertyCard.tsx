@@ -53,7 +53,7 @@ const PropertyCard = ({
             src={property?.photoUrls?.[0]}
             alt={property.name}
             fill
-            loading="lazy"
+            loading="eager"
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
@@ -94,6 +94,7 @@ const PropertyCard = ({
               href={propertyLink}
               className="hover:underline"
               scroll={false}
+              prefetch
             >
               {property.name}
             </Link>

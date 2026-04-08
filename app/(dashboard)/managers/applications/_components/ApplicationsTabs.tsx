@@ -119,6 +119,7 @@ const ApplicationsTabs = ({
                         href={`/managers/properties/${application.property.id}`}
                         className="hover:bg-primary-700 hover:text-primary-50 flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700"
                         scroll={false}
+                        prefetch
                       >
                         <Hospital className="mr-2 h-5 w-5" />
                         Property Details

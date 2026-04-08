@@ -11,13 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSignout } from "@/hooks/use-signout";
 import { User } from "@/lib/auth-client";
-import {
-  LayoutDashboard,
-  LogOut,
-  Search,
-  Settings,
-  UserIcon,
-} from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, UserIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -70,14 +64,6 @@ const UserDropdown = ({ user }: { user: User }) => {
           Go to Dashboard
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            router.push("/search");
-          }}
-        >
-          <Search />
-          Search
-        </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"
           onClick={() =>

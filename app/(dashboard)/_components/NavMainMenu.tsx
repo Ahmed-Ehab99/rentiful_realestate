@@ -54,6 +54,7 @@ const NavMainMenu = ({ user }: { user: User }) => {
             <SidebarMenuButton asChild tooltip={item.label} isActive={isActive}>
               <Link
                 href={item.href}
+                prefetch
                 className="flex cursor-pointer items-center gap-4 p-1.5!"
               >
                 {item.icon && (

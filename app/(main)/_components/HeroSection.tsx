@@ -2,56 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useLocationSearch } from "@/hooks/use-location-search";
 import { motion } from "framer-motion";
 import { Loader2, Search } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { toast } from "sonner";
 
 const HeroSection = () => {
-  const router = useRouter();
-  const [searchInput, setSearchInput] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-
-  const handleHeroSearch = useCallback(async () => {
-    const query = searchInput.trim();
-
-    setIsSearching(true);
-    try {
-      // Empty search => go to the full listings page (no geo filter).
-      if (!query) {
-        router.push("/search");
-        return;
-      }
-
-      // Reuses the existing app geocoding proxy to get lng/lat.
-      const res = await fetch(
-        `/api/geocode?${new URLSearchParams({ q: query })}`,
-      );
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data?.error ?? "Failed to search location");
-        return;
-      }
-
-      if (data.lat !== null && data.lng !== null) {
-        const params = new URLSearchParams();
-        params.set("location", query);
-        params.set("coordinates", `${data.lng},${data.lat}`);
-        router.push(`/search?${params.toString()}`);
-      } else {
-        // Geocode returned no coords => clear geo filter.
-        router.push("/search");
-      }
-    } catch (err) {
-      toast.error("Failed to search location");
-      console.error("Hero search error:", err);
-    } finally {
-      setIsSearching(false);
-    }
-  }, [router, searchInput]);
+  const { searchInput, setSearchInput, isSearching, handleSearch } =
+    useLocationSearch();
 
   return (
     <div className="relative h-screen">
@@ -59,9 +17,9 @@ const HeroSection = () => {
         src="/landing-splash.jpg"
         alt="Rentiful Rental Platform Hero Section"
         fill
+        sizes="100vw"
         className="object-cover object-center"
         priority
-        loading="eager"
       />
 
       <div className="absolute inset-0 bg-black/60" />
@@ -87,14 +45,14 @@ const HeroSection = () => {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleHeroSearch()}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               placeholder="Search by city, neighborhood or address"
               className="h-12 w-full max-w-lg rounded-none rounded-l-xl border-none bg-white"
               disabled={isSearching}
             />
 
             <Button
-              onClick={handleHeroSearch}
+              onClick={handleSearch}
               disabled={isSearching}
               className="bg-secondary-500 hover:bg-secondary-600 h-12 rounded-none rounded-r-xl border-none text-white"
             >
