@@ -7,7 +7,7 @@ import NavbarAuth from "./NavbarAuth";
 const Navbar = () => {
   return (
     <div className={`fixed top-0 left-0 z-50 h-15 w-full shadow-xl`}>
-      <header className="bg-primary-700 grid w-full grid-cols-3 items-center justify-between px-8 py-3 text-white">
+      <header className="bg-primary-700 grid w-full grid-cols-2 items-center justify-between px-8 py-3 text-white md:grid-cols-3">
         <div className="flex items-center gap-4 md:gap-6">
           <Link
             href="/"
