@@ -25,7 +25,7 @@ export default function Unauthorized() {
           asChild
           className="bg-primary-700 hover:bg-primary-600 h-11 px-8 text-white"
         >
-          <Link href="/login">Sign In</Link>
+          <Link href="/signin">Sign In</Link>
         </Button>
         <Button
           asChild
